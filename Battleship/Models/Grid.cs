@@ -60,7 +60,7 @@ namespace Battleship.Models
         /// <param name="row"></param>
         /// <param name="isVertical"></param>
         /// <returns></returns>
-        public bool PlaceShip(string shipType, int column, int row, bool isVertical)
+        public bool PlaceShipSuccessful(string shipType, int column, int row, bool isVertical)
         {
             if (!Ship.ShipLengths.TryGetValue(shipType, out int shipLength))
             {
@@ -148,6 +148,44 @@ namespace Battleship.Models
             }
 
             else return "DUPLICATE";
+        }
+
+        public void WipeGrid()
+        {
+            this.Cells = new Cell[10, 10];
+            this.GameId = "temp"; //This will be used and improved later, or deleted.
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    Cells[i, j] = new Cell();
+                }
+            }
+
+            Ships = new Dictionary<string, Ship>
+            {
+                { Ship.CARRIER, new Ship(Ship.CARRIER) },
+                { Ship.BATTLESHIP, new Ship(Ship.BATTLESHIP) },
+                { Ship.CRUISER, new Ship(Ship.CRUISER) },
+                { Ship.SUBMARINE, new Ship(Ship.SUBMARINE) },
+                { Ship.DESTROYER, new Ship(Ship.DESTROYER) },
+            };
+        }
+
+        public void PlaceShipsRandomly()
+        {
+            this.WipeGrid();
+
+            Random random = new Random();
+
+            foreach (string type in Ship.ShipTypes)
+            {
+                while (!this.PlaceShipSuccessful(type, random.Next(0, 9), random.Next(0, 9), random.Next(0, 1) == 0))
+                {
+                    this.PlaceShipSuccessful(type, random.Next(0, 9), random.Next(0, 9), random.Next(0, 1) == 0);
+                }
+            }
         }
     }
 }

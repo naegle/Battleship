@@ -20,6 +20,15 @@ namespace Battleship.Models
             { DESTROYER, 2 },
         };
 
+        public static readonly List<string> ShipTypes = new List<string>
+        {
+            CARRIER,
+            BATTLESHIP,
+            CRUISER,
+            SUBMARINE,
+            DESTROYER,
+        };
+
         private string ShipType { get; set; }
         private int Length { get; set; }
         private int CurrentDamage { get; set; }
