@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 namespace Battleship.Models
 {
@@ -10,25 +11,31 @@ namespace Battleship.Models
         public readonly static string SUBMARINE = "SUBMARINE";
         public readonly static string DESTROYER = "DESTROYER";
 
+        public static readonly Dictionary<string, int> ShipLengths = new Dictionary<string, int>
+        {
+            { CARRIER, 5 },
+            { BATTLESHIP, 4 },
+            { CRUISER, 3 },
+            { SUBMARINE, 3 },
+            { DESTROYER, 2 },
+        };
+
         private string ShipType { get; set; }
         private int Length { get; set; }
         private int CurrentDamage { get; set; }
 
         public Ship(string shipType)
         {
-            if (shipType.Equals(CARRIER))
-                this.Length = 5;
-            else if (shipType.Equals(BATTLESHIP))
-                this.Length = 4;
-            else if (shipType.Equals(CRUISER))
-                this.Length = 3;
-            else if (shipType.Equals(SUBMARINE))
-                this.Length = 3;
-            else if (shipType.Equals(DESTROYER))
-                this.Length = 2;
+            this.ShipType = shipType;
+
+            if (ShipLengths.TryGetValue(shipType, out int length))
+            {
+                this.Length = length;
+            }
+
             else throw new ArgumentException(shipType + " is not a valid ship type.");
 
-            this.ShipType = shipType;
+            this.CurrentDamage = 0;
         }
 
         /// <summary>
