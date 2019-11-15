@@ -181,9 +181,10 @@ namespace Battleship.Models
 
             foreach (string type in Ship.ShipTypes)
             {
-                while (!this.PlaceShipSuccessful(type, random.Next(0, 9), random.Next(0, 9), random.Next(0, 1) == 0))
+                bool placementWasSuccessful = false;
+                while (!placementWasSuccessful)
                 {
-                    this.PlaceShipSuccessful(type, random.Next(0, 9), random.Next(0, 9), random.Next(0, 1) == 0);
+                    placementWasSuccessful = this.PlaceShipSuccessful(type, random.Next(0, 9), random.Next(0, 9), random.Next(0, 1) == 0);
                 }
             }
         }
