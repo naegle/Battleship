@@ -98,8 +98,8 @@ namespace Battleship.Models
         /// <returns></returns>
         public string AIShoot()
         {
-            int columnShot = random.Next(0, 9);
-            int rowShot = random.Next(0, 9);
+            int columnShot = random.Next(10);
+            int rowShot = random.Next(10);
             string resultOfShot = PlayerGrid.ShootCell(columnShot, rowShot);
             if (resultOfShot.Equals("DUPLICATE")) //TODO: make this smart instead of totally random
             {

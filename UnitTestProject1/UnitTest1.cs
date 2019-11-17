@@ -37,23 +37,47 @@ namespace UnitTestProject1
                 playerShips += "\n";
             }
 
-            string runningResult = "";
-            
+            string runningResultPlayer = "";
+            string runningResultAI = "";
+
+            bool done = false;
             for (int i = 0; i <= 9; i++)
             {
-                for (int j = 0; j <= 9; j++)
+                if (done)
                 {
-                    runningResult += g.PlayerShoot(gameId, i, j).Substring(0,3) + "\t";
+                    break;
                 }
 
-                runningResult += "\n";
+                for (int j = 0; j <= 9; j++)
+                {
+                    runningResultPlayer += g.PlayerShoot(gameId, i, j).Substring(0,3) + "\t";
+                    if (runningResultPlayer.Contains("WIN"))
+                    {
+                        done = true;
+                        break;
+                    }
+
+                    runningResultAI += g.AIShoot(gameId).Substring(0,3) + "\t";
+
+                    if (runningResultAI.Contains("Los"))
+                    {
+                        done = true;
+                        break;
+                    }
+                }
+
+                runningResultPlayer += "\n";
+                runningResultAI += "\n";
             }
 
-            if (!runningResult.Contains("WIN"))
+            if (!runningResultPlayer.Contains("WIN") && !runningResultAI.Contains("WIN"))
             {
-                runningResult += "\nNO WIN";
+                runningResultPlayer += "\nNO WIN";
+                runningResultAI += "\nNO Los";
                 //Assert.Fail();
             }
+
+            int a = 0;
         }
     }
 }
