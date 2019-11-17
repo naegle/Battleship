@@ -12,6 +12,8 @@ namespace Battleship.Models
         public Grid PlayerGrid;
         public Grid AIGrid;
 
+        public int PlayerShots;
+
         public int PlayerShipsRemaining;
         public int AIShipsRemaining;
 
@@ -19,7 +21,7 @@ namespace Battleship.Models
 
         public Game()
         {
-            this.GameStarted = false;
+            this.GameStarted = true;
             this.YourTurn = true;
             this.PlayerGrid = new Grid();
             this.AIGrid = new Grid();
@@ -44,7 +46,7 @@ namespace Battleship.Models
 
         public void NewGame()
         {
-            this.GameStarted = false;
+            this.GameStarted = true;
             this.YourTurn = true;
             this.PlayerGrid = new Grid();
             this.AIGrid = new Grid();
@@ -56,19 +58,25 @@ namespace Battleship.Models
             AIGrid.PlaceShipsRandomly();
         }
 
+        /// <summary>
+        /// This will either return HIT, MISS, WINN, the name of the ship sunk, or NOT YOUR TURN
+        /// </summary>
+        /// <param name="column"></param>
+        /// <param name="row"></param>
+        /// <returns></returns>
         public string PlayerShoot(int column, int row)
         {
+            if (!YourTurn)
+            {
+                return "NOT YOUR TURN";
+            }
+
             string resultOfShot = AIGrid.ShootCell(column, row);
 
 
             if (resultOfShot.Equals("HIT"))
             {
-                //increment player shots and player hits
-            }
-
-            if (resultOfShot.Equals("MISS"))
-            {
-                //increment player shots
+                PlayerShots++;
             }
 
             if (Ship.ShipTypes.Contains(resultOfShot))
@@ -76,16 +84,23 @@ namespace Battleship.Models
                 AIShipsRemaining--;
                 if (AIShipsRemaining == 0)
                 {
-                    return "You Win";
+                    return "WIN";
                 }
             }
 
             return resultOfShot;
         }
 
+        /// <summary>
+        /// Returns a essage in the form of [result of shot] [column] [row]
+        /// Result of shot is either "HIT", "MISS", "LOSE", or one of the names of the ship sunk
+        /// </summary>
+        /// <returns></returns>
         public string AIShoot()
         {
-            string resultOfShot = PlayerGrid.ShootCell(random.Next(0, 9), random.Next(0, 9));
+            int columnShot = random.Next(0, 9);
+            int rowShot = random.Next(0, 9);
+            string resultOfShot = PlayerGrid.ShootCell(columnShot, rowShot);
             if (resultOfShot.Equals("DUPLICATE")) //TODO: make this smart instead of totally random
             {
                 resultOfShot = AIShoot();
@@ -96,11 +111,11 @@ namespace Battleship.Models
                 PlayerShipsRemaining--;
                 if (PlayerShipsRemaining == 0)
                 {
-                    return "You Lose";
+                    return "Lose " + columnShot + " " + rowShot;
                 }
             }
 
-            return resultOfShot;
+            return resultOfShot + " " + columnShot + " " + rowShot;
         }
     }
 }

@@ -41,6 +41,12 @@ namespace Battleship.Models
                 return false;
             }
 
+            return AllBlocksOfShipAreInBounds(shipLength, column, row, isVertical) 
+                && SpotsAndNeighborsAreClear(shipLength, column, row, isVertical);
+        }
+
+        public bool AllBlocksOfShipAreInBounds(int shipLength, int column, int row, bool isVertical)
+        {
             if (isVertical)
             {
                 return row + shipLength - 1 <= 9;
@@ -50,6 +56,53 @@ namespace Battleship.Models
             {
                 return column + shipLength - 1 <= 9;
             }
+        }
+
+        public bool SpotsAndNeighborsAreClear(int shipLength, int column, int row, bool isVertical)
+        {
+            if (isVertical)
+            {
+                for (int r = row; r <= r + shipLength; r++)
+                {
+                    if (!Cells[column, r].PartialShip.Equals(Cell.NONE))
+                    {
+                        return false;
+                    }
+
+                    if (NeighborHasShip(column + 1, r) || NeighborHasShip(column - 1, r) || NeighborHasShip(column, r + 1) || NeighborHasShip(column, r - 1))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            else 
+            {
+                for (int c = column; c <= c + shipLength; c++)
+                {
+                    if (!Cells[c, row].PartialShip.Equals(Cell.NONE))
+                    {
+                        return false;
+                    }
+
+                    if (NeighborHasShip(c+1, row) || NeighborHasShip(c-1, row) || NeighborHasShip(c, row+1) || NeighborHasShip(c, row-1))
+                    {
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        private bool NeighborHasShip(int column, int row)
+        {
+            if (column > 9 || column < 0 || row > 9 || row < 0)
+            {
+                return false;
+            }
+
+            return Cells[column, row].PartialShip.Equals(Cell.NONE);
         }
 
         /// <summary>
