@@ -117,10 +117,5 @@ namespace Battleship.Models
 
             return resultOfShot + " " + columnShot + " " + rowShot;
         }
-
-        public bool PlaceSinglePlayerShip(string shipType, int column, int row, bool isVertical)
-        {
-
-        }
     }
 }

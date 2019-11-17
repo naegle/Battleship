@@ -6,9 +6,9 @@ namespace Battleship.Models
 {
     public class Grid
     {
-        private Cell[,] Cells { get; set; }
+        public Cell[,] Cells { get; set; }
 
-        private Dictionary<string, Ship> Ships;
+        public Dictionary<string, Ship> Ships;
 
         public Grid()
         {
@@ -60,7 +60,7 @@ namespace Battleship.Models
         {
             if (isVertical)
             {
-                for (int r = row; r <= r + shipLength; r++)
+                for (int r = row; r < row + shipLength; r++)
                 {
                     if (!Cells[column, r].PartialShip.Equals(Cell.NONE))
                     {
@@ -76,7 +76,7 @@ namespace Battleship.Models
 
             else 
             {
-                for (int c = column; c <= c + shipLength; c++)
+                for (int c = column; c < column + shipLength; c++)
                 {
                     if (!Cells[c, row].PartialShip.Equals(Cell.NONE))
                     {
@@ -100,7 +100,7 @@ namespace Battleship.Models
                 return false;
             }
 
-            return Cells[column, row].PartialShip.Equals(Cell.NONE);
+            return !Cells[column, row].PartialShip.Equals(Cell.NONE);
         }
 
         /// <summary>
