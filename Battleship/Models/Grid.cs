@@ -7,14 +7,12 @@ namespace Battleship.Models
     public class Grid
     {
         private Cell[,] Cells { get; set; }
-        private string GameId { get; set; }
 
         private Dictionary<string, Ship> Ships;
 
         public Grid()
         {
             this.Cells = new Cell[10, 10];
-            this.GameId = "temp"; //This will be used and improved later, or deleted.
 
             for (int i = 0; i < 10; i++)
             {
@@ -127,15 +125,6 @@ namespace Battleship.Models
 
             if (isVertical)
             {
-                // Check for pre-existing ship
-                for (int i = row; i < row + shipLength; i++)
-                {
-                    if (!Cells[i, column].PartialShip.Equals(Cell.NONE))
-                    {
-                        return false;
-                    }
-                }
-
                 // Place the ship
                 for (int i = row; i < row + shipLength; i++)
                 {
@@ -145,14 +134,6 @@ namespace Battleship.Models
 
             else
             {
-                for (int i = column; i < column + shipLength; i++)
-                {
-                    if (!Cells[row, i].PartialShip.Equals(Cell.NONE))
-                    {
-                        return false;
-                    }
-                }
-
                 for (int i = column; i < column + shipLength; i++)
                 {
                     Cells[row, i].PartialShip = shipType;
