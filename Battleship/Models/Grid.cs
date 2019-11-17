@@ -128,7 +128,7 @@ namespace Battleship.Models
                 // Place the ship
                 for (int i = row; i < row + shipLength; i++)
                 {
-                    Cells[i, column].PartialShip = shipType;
+                    Cells[column, i].PartialShip = shipType;
                 }
             }
 
@@ -136,7 +136,7 @@ namespace Battleship.Models
             {
                 for (int i = column; i < column + shipLength; i++)
                 {
-                    Cells[row, i].PartialShip = shipType;
+                    Cells[i, row].PartialShip = shipType;
                 }
             }
 
@@ -217,7 +217,7 @@ namespace Battleship.Models
                 bool placementWasSuccessful = false;
                 while (!placementWasSuccessful)
                 {
-                    placementWasSuccessful = this.PlaceShipSuccessful(type, random.Next(0, 9), random.Next(0, 9), random.Next(0, 1) == 0);
+                    placementWasSuccessful = this.PlaceShipSuccessful(type, random.Next(10), random.Next(10), random.Next(2) == 0);
                 }
             }
         }
