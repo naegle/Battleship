@@ -39,11 +39,6 @@ namespace Battleship.Models
             Games[gameId].PlacePlayerShipsRandomly();
         }
 
-        public void NewGame(int gameId)
-        {
-            Games[gameId].NewGame();
-        }
-
         /// <summary>
         /// This will either return HIT, MISS, WINN, the name of the ship sunk, or NOT YOUR TURN
         /// </summary>

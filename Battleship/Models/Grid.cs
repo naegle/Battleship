@@ -187,7 +187,6 @@ namespace Battleship.Models
         public void WipeGrid()
         {
             this.Cells = new Cell[10, 10];
-            this.GameId = "temp"; //This will be used and improved later, or deleted.
 
             for (int i = 0; i < 10; i++)
             {
