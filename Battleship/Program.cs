@@ -25,8 +25,9 @@ namespace Battleship
                 try
                 {
                     var context = services.GetRequiredService<BattleshipDBContext>();
+                    var user = services.GetRequiredService<BattleshipContext>();
                    
-                    DbInitializer.Initialize(context);
+                    DbInitializer.Initialize(context,user);
                 }
                 catch (Exception ex)
                 {

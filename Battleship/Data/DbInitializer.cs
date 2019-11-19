@@ -9,9 +9,10 @@ namespace Battleship.Data
 {
     public class DbInitializer
     {
-        public static void Initialize(BattleshipDBContext context)
+        public static void Initialize(BattleshipDBContext context, BattleshipContext userContext)
         {
             context.Database.Migrate();
+            userContext.Database.Migrate();
 
         }
     }
