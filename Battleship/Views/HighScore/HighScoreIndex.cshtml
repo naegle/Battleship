@@ -1,0 +1,75 @@
+﻿@model IEnumerable<Battleship.Models.HighScore>
+@{
+    ViewData["Title"] = "HighScore";
+}
+
+
+<head>
+    <link rel="stylesheet" href="~/css/HighScore.css" />
+</head>
+
+
+<h1>HighScore</h1>
+
+<body>
+    <h1>High Score List of Top 25</h1>
+
+    <div id="highscores_list">
+
+
+        <table class="table table-hover text-left">
+            <thead>
+                <tr>
+                    <th>
+                        <a>
+                            @Html.DisplayName("Rank")
+                        </a>
+                    </th>
+                    <th>
+                        <a>
+                            @Html.DisplayName("Name")
+                        </a>
+                    </th>
+                    <th>
+                        <a>
+                            @Html.DisplayName("Accuracy")
+                        </a>
+                    </th>
+                    <th>
+                        <a>
+                            @Html.DisplayName("Date")
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+
+            @{
+
+                <tbody>
+                    @foreach (var user in Model)
+                    {
+                        <tr>
+                            <td id="Rank"> </td>
+                            <td> @user.PlayerId</td>
+                            <td> @user.AccuracyScore %</td>
+                            <td> @user.Date_Of_Win</td>
+                        </tr>
+
+                    }
+                </tbody>
+
+            }
+        </table>
+
+
+
+    </div>
+
+
+    <button onclick="goBack()">Go Back</button>
+
+</body>
+
+@section Scripts{
+    <script src="~/js/Common.js"></script>
+}
