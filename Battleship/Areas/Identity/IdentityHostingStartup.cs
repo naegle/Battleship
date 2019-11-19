@@ -18,9 +18,6 @@ namespace Battleship.Areas.Identity
                 services.AddDbContext<BattleshipContext>(options =>
                     options.UseSqlServer(
                         context.Configuration.GetConnectionString("BattleshipContextConnection")));
-
-                services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-                    .AddEntityFrameworkStores<BattleshipContext>();
             });
         }
     }
