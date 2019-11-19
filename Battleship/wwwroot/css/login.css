@@ -53,10 +53,6 @@ ul, li {
     list-style-type: none;
 }
 
-.container {
-    margin-top: -11px;
-}
-
 /*---------------------------------------------*/
 input {
     outline: none;
