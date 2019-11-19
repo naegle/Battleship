@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿function purchase_power1() {
 
-namespace Battleship.wwwroot.js
-{
-    public class Store
-    {
-    }
+    document.getElementById("playerIncome").style.color = "red";
+  
 }
+
+
