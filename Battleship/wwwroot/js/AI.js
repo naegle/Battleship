@@ -35,7 +35,7 @@ var gridData = gridData();
 // I like to log the data to the console for quick debugging
 console.log(gridData);
 
-var grid = d3.select("#grid")
+var grid = d3.select("#gridAI")
     .append("svg")
     .attr("width", "510px")
     .attr("height", "510px");
