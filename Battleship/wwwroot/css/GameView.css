@@ -1,0 +1,33 @@
+﻿.square:hover
+{
+   background-color: yellow;
+}
+
+:root {
+    --grid-cols: 1;
+    --grid-rows: 1;
+}
+
+#container {
+    position: relative;
+    top: 30px;
+    outline: 2px solid #000;
+    font-size: 0;
+    margin: auto;
+    height: 256px;
+    width: 256px;
+    padding: 0;
+    border: none;
+}
+
+.grid {
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: 1px solid #000;
+    display: inline-block;
+}
+
+.grid-item:hover{
+    background-color: gray;
+}
