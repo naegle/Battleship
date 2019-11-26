@@ -18,7 +18,7 @@
     width: 500px;
     padding: 0;
     border: none;
-    background-color: white;
+    background-color: aqua;
 }
 
 .Player_Cell, .AI_Cell {
@@ -30,5 +30,6 @@
 }
 
 .AI_Cell:hover{
+    background-color:aquamarine;
     cursor: url('../images/aim.png') 16 16 ,auto;
 }
