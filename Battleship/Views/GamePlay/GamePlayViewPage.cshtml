@@ -4,6 +4,7 @@
 }
 <head>
     <link rel="stylesheet" href="~/css/GameView.css">
+    <link rel="stylesheet" href="~/css/site.css" />
 </head>
 
 
@@ -12,13 +13,20 @@
 
     <div class="container">
         <div class="row">
-            <div class="col-lg-auto">
-                <div id="playerGrid">
-                </div>
+            <div class="" id="battleShipsList">
+                <div id="battleShipsListHeader">Place Your Battleships</div>
+                <ul>
+                    <li><img src="~/images/cruiser.svg" class="battleshipImage" id="cruiserImage" /></li>
+                    <li><img src="~/images/raider.svg" class="battleshipImage" id="raiderImage" /></li>
+                    <li><img src="~/images/destroyer.svg" class="battleshipImage" id="destroyerImage" /></li>
+                    <li><img src="~/images/battleship.svg" class="battleshipImage" id="battleshipImage" /></li>
+                    <li><img src="~/images/aircraftCarrier.svg" class="battleshipImage" id="aircraftCarrierImage" /></li>
+                    <li><button class="rotateButton" onsubmit="">Rotate Ship</button></li>
+                </ul>
             </div>
-            <div class="col-lg-auto">
-                <div id="AIGrid">
-                </div>
+            <div class="col-lg-auto" id="playerGrid">
+            </div>
+            <div class="col-lg-auto" id="AIGrid">
             </div>
         </div>
     </div>
@@ -29,8 +37,24 @@
 </body>
 
 @section Scripts{
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script src="~/js/Game.js"></script>
     <script src="~/js/Common.js"></script>
     <script src="~/js/grid.js"></script>
     <script src="~/js/AI.js"></script>
+    <script>
+        $(function () {
+            $("#cruiserImage").draggable({
+                snap: ".Player_Cell",
+                snapTolerance: 50,
+                cursor: "grabbing",
+                opacity: .7,
+                containment: "#playerGrid"
+            });
+            $("#raiderImage").draggable();
+            $("#destroyerImage").draggable();
+            $("#battleshipImage").draggable();
+            $("#aircraftCarrierImage").draggable();
+        });
+    </script>
 }

@@ -24,15 +24,29 @@ a {
   border-color: #1861ac;
 }
 
+/*Responsiveness*/
+@media (min-width: 1200px) {
+    .container {
+        max-width: 1500px;
+    }
+}
+
 /* Sticky footer styles
 -------------------------------------------------- */
 html {
   font-size: 14px;
 }
+
 @media (min-width: 768px) {
   html {
     font-size: 16px;
   }
+}
+
+html, body {
+    width: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 .border-top {

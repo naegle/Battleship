@@ -8,6 +8,69 @@
     --grid-rows: 1;
 }
 
+#battleShipsList {
+    text-align: center;
+    width: auto;
+    border: 2px solid black;
+    position: relative;
+    height: 450px;
+    padding: 5px;
+    margin-top: 55px;
+}
+
+.rotateButton {
+    background-color: #008CBA;
+    color: white;
+    border: 2px solid #008CBA;
+    margin-top: 30px;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.rotateButton:hover {
+    background-color: white;
+    color: #008CBA;
+}
+
+img {
+    width: 100%;
+    height: auto;
+}
+
+li {
+    padding: 2px 0 0 0;
+}
+
+#battleShipsListHeader {
+    font-size: 30px;
+}
+
+#raiderImage, #cruiserImage, #destroyerImage, #battleshipImage, #aircraftCarrierImage {
+    z-index: 2;
+}
+
+#raiderImage, #cruiserImage {
+    max-width: 100px;
+}
+
+#destroyerImage {
+    max-width: 135px;
+}
+
+#battleshipImage {
+    max-width: 175px;
+}
+
+#aircraftCarrierImage {
+    max-width: 190px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
 #playerGrid, #AIGrid {
     position: relative;
     top: 30px;
@@ -19,6 +82,7 @@
     padding: 0;
     border: none;
     background-color: aqua;
+    z-index: 1;
 }
 
 .Player_Cell, .AI_Cell {
@@ -32,4 +96,9 @@
 .AI_Cell:hover{
     background-color:aquamarine;
     cursor: url('../images/aim.png') 16 16 ,auto;
+}
+
+.Player_Cell:hover {
+    background-color: dimgrey;
+    opacity: .6;
 }

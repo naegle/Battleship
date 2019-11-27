@@ -9,7 +9,18 @@ function createGrid(x) {
     };
     $(".Player_Cell").width(500 / x);
     $(".Player_Cell").height(500 / x);
-
+    $(".Player_Cell").droppable({
+        snap: true,
+        accept: "raiderImage",
+        classes: {
+            "ui-droppable-active": "ui-state-active",
+            "ui-droppable-hover": "ui-state-hover"
+        },
+        drop: function (event, ui) {
+            $(this)
+                .addClass("ui-state-highlight")
+        }
+    });
     $(".AI_Cell").width(500 / x);
     $(".AI_Cell").height(500 / x);
     $(".AI_Cell").mouseover = function () { mouseHoverAI() };

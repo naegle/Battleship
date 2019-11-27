@@ -32,6 +32,7 @@ namespace Battleship.Controllers
             return View();
         }
 
+        //Create Account View
         [HttpGet]
         public IActionResult Register()
         {
@@ -97,11 +98,6 @@ namespace Battleship.Controllers
             await signInManager.SignOutAsync();
             return RedirectToAction("login", "home");
         }
-
-        //public IActionResult Privacy()
-        //{
-        //    return View();
-        //}
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
