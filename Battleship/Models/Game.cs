@@ -12,7 +12,7 @@ namespace Battleship.Models
         public Grid PlayerGrid;
         public Grid AIGrid;
 
-        public int PlayerShots;
+        public double PlayerShots;
 
         public int PlayerShipsRemaining;
         public int AIShipsRemaining;
@@ -56,7 +56,8 @@ namespace Battleship.Models
         }
 
         /// <summary>
-        /// This will either return HIT, MISS, the name of the ship sunk, or WIN
+        /// Returns a string message in the form of "[result of shot] [column] [row] [accuracy(if you won on this shot)]"
+        /// Result of shot is either "HIT", "MISS", "WIN", or the name of the ship you just sunk
         /// </summary>
         /// <param name="column"></param>
         /// <param name="row"></param>
@@ -75,7 +76,7 @@ namespace Battleship.Models
                 AIShipsRemaining--;
                 if (AIShipsRemaining == 0)
                 {
-                    return "WIN" + " " + column + " " + row;
+                    return "WIN" + " " + column + " " + row + " " + (Ship.TOTAL_SHIP_HEALTH * 100) / PlayerShots;
                 }
             }
 

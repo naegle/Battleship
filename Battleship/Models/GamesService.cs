@@ -37,15 +37,16 @@ namespace Battleship.Models
         }
 
         /// <summary>
-        /// Returns a string message in the form of "[result of shot][space][column][space][row]"
-        /// Result of shot is either "HIT", "MISS", "WIN", or the name of the ship sunk
+        /// Returns a string message in the form of "[result of shot] [column] [row] [accuracy(if you won on this shot)]"
+        /// Result of shot is either "HIT", "MISS", "WIN", or the name of the ship you just sunk
+        /// This method takes in the input from the front end (in the form of 1-10) converts it to 0-9, and returns it in the form of 1-10
         /// </summary>
         /// <param name="column"></param>
         /// <param name="row"></param>
         /// <returns></returns>
         public string PlayerShoot(string userId, int column, int row)
         {
-            string[] response = Games[userId].PlayerShoot(column, row).Split(new char[] { ' ' });
+            string[] response = Games[userId].PlayerShoot(column - 1, row - 1).Split(new char[] { ' ' });
             string resultOfShot = response[0];
             int xCoordinate = Convert.ToInt32(resultOfShot[1] + 1);
             int yCoordinate = Convert.ToInt32(resultOfShot[2] + 1);
@@ -54,7 +55,7 @@ namespace Battleship.Models
 
         /// <summary>
         /// Returns a string message in the form of "[result of shot][space][column][space][row]"
-        /// Result of shot is either "HIT", "MISS", "LOSE", or the name of the ship sunk
+        /// Result of shot is either "HIT", "MISS", "LOSE", or the name of the ship the AI just sunk
         /// </summary>
         /// <returns></returns>
         public string AIShoot(string userId)
