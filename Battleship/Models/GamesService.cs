@@ -26,7 +26,7 @@ namespace Battleship.Models
             Games.Add(userId, new Game());
         }
 
-        public void PlaceAIShips(string userId)
+        public void PlaceAIShipsRandomly(string userId)
         {
             Games[userId].PlaceAIShipsRandomly();
         }
