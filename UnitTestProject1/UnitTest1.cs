@@ -58,7 +58,7 @@ namespace UnitTestProject1
                         break;
                     }
 
-                    runningResultAI += g.AIShoot(userId).Substring(0,3) + "\t";
+                    runningResultAI += g.AIShootDumb(userId).Substring(0,3) + "\t";
 
                     if (runningResultAI.Contains("Los"))
                     {

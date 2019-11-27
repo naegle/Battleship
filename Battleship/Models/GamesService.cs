@@ -58,9 +58,23 @@ namespace Battleship.Models
         /// Result of shot is either "HIT", "MISS", "LOSE", or the name of the ship the AI just sunk
         /// </summary>
         /// <returns></returns>
-        public string AIShoot(string userId)
+        public string AIShootDumb(string userId)
         {
-            string[] response = Games[userId].AIShoot().Split(new char[] { ' ' });
+            string[] response = Games[userId].AIShootDumb().Split(new char[] { ' ' });
+            string resultOfShot = response[0];
+            int xCoordinate = Convert.ToInt32(resultOfShot[1] + 1);
+            int yCoordinate = Convert.ToInt32(resultOfShot[2] + 1);
+            return resultOfShot + " " + xCoordinate + " " + yCoordinate;
+        }
+
+        /// <summary>
+        /// Returns a string message in the form of "[result of shot][space][column][space][row]"
+        /// Result of shot is either "HIT", "MISS", "LOSE", or the name of the ship the AI just sunk
+        /// </summary>
+        /// <returns></returns>
+        public string AIShootSmart(string userId)
+        {
+            string[] response = Games[userId].AIShootSmart().Split(new char[] { ' ' });
             string resultOfShot = response[0];
             int xCoordinate = Convert.ToInt32(resultOfShot[1] + 1);
             int yCoordinate = Convert.ToInt32(resultOfShot[2] + 1);
