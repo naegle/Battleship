@@ -1,10 +1,10 @@
 ﻿
 // function that builds a grid in the "container"
 function createGrid(x) {
-    for (var rows = 0; rows < x; rows++) {
-        for (var columns = 0; columns < x; columns++) {
+    for (var rows = 1; rows <= x; rows++) {
+        for (var columns = 1; columns <= x; columns++) {
             $("#playerGrid").append("<div class='Player_Cell' " + "id=" + rows + "_" + columns + " x=" + rows + " y=" + columns + "></div>");
-            $("#AIGrid").append("<div class='AI_Cell' " + "id=" + rows + "_" + columns + " x=" + rows + " y=" + columns + "></div>");
+            $("#AIGrid").append("<div class='AI_Cell' " + "id=" + rows + "_" + columns + " x=" + rows + " y=" + columns + " onclick=\"ShootCellAIGrid(this.id)\"" + "></div>");
         };
     };
     $(".Player_Cell").width(500 / x);
@@ -40,6 +40,36 @@ function refreshGrid() {
     createGrid(z);
 };
 
+function ShootCellAIGrid(elementID) {
+
+    $.ajax({
+        method: "POST",
+        url: "/GamePlay/FireAIGrid",
+        data: {
+            coords: elementID
+        },
+        success: function (response) {
+            if (response.success) {
+
+               
+            }
+        }
+    });
+
+}
+
+function CreateGameService() {
+    $.ajax({
+        method: "POST",
+        url: "/GamePlay/CreateGameService",
+        success: function (response) {
+            if (response.success) {
+
+
+            }
+        }
+    });
+}
 // create a 16x16 grid when the page loads
 // creates a hover effect that changes the color of a square to black when the mouse passes over it, leaving a (pixel) trail through the grid
 // allows the click of a button to prompt the user to create a new grid
