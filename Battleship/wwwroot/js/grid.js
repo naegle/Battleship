@@ -11,6 +11,7 @@ function createGrid(x) {
     $(".Player_Cell").height(500 / x);
     $(".Player_Cell").droppable({
         snap: true,
+        snapTolerance: 50,
         accept: "raiderImage",
         classes: {
             "ui-droppable-active": "ui-state-active",
