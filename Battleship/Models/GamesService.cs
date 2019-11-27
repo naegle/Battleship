@@ -9,57 +9,61 @@ namespace Battleship.Models
     /// </summary>
     public class GamesService
     {
-        public Dictionary<int, Game> Games;
-        public int GameCounter;
+        public Dictionary<string, Game> Games;
 
         public GamesService()
         {
-            this.Games = new Dictionary<int, Game>();
-            GameCounter = 0;
+            this.Games = new Dictionary<string, Game>();
         }
 
-        public int NewGame()
+        public void NewGame(string userId)
         {
-            this.Games.Add(++GameCounter, new Game());
-            return GameCounter;
+            if (Games.TryGetValue(userId, out Game game))
+            {
+                game.NewGame();
+            }
+
+            Games.Add(userId, new Game());
         }
 
-        public void RestartGame(int gameId)
+        public void PlaceAIShips(string userId)
         {
-            Games[gameId].NewGame();
+            Games[userId].PlaceAIShipsRandomly();
         }
 
-        public void PlaceAIShips(int gameId)
+        public void PlacePlayerShipsRandomly(string userId)
         {
-            Games[gameId].PlaceAIShips();
-        }
-
-        public void PlacePlayerShipsRandomly(int gameId)
-        {
-            Games[gameId].PlacePlayerShipsRandomly();
+            Games[userId].PlacePlayerShipsRandomly();
         }
 
         /// <summary>
-        /// This will either return HIT, MISS, WINN, the name of the ship sunk, or NOT YOUR TURN
+        /// Returns a string message in the form of "[result of shot][space][column][space][row]"
+        /// Result of shot is either "HIT", "MISS", "WIN", or the name of the ship sunk
         /// </summary>
         /// <param name="column"></param>
         /// <param name="row"></param>
         /// <returns></returns>
-        public string PlayerShoot(int gameId, int column, int row)
+        public string PlayerShoot(string userId, int column, int row)
         {
-            string resultOfShot = Games[gameId].PlayerShoot(column, row);
-            return resultOfShot;
+            string[] response = Games[userId].PlayerShoot(column, row).Split(new char[] { ' ' });
+            string resultOfShot = response[0];
+            int xCoordinate = Convert.ToInt32(resultOfShot[1] + 1);
+            int yCoordinate = Convert.ToInt32(resultOfShot[2] + 1);
+            return resultOfShot + " " + xCoordinate + " " + yCoordinate;
         }
 
         /// <summary>
-        /// Returns a essage in the form of [result of shot] [column] [row]
-        /// Result of shot is either "HIT", "MISS", "LOSE", or one of the names of the ship sunk
+        /// Returns a string message in the form of "[result of shot][space][column][space][row]"
+        /// Result of shot is either "HIT", "MISS", "LOSE", or the name of the ship sunk
         /// </summary>
         /// <returns></returns>
-        public string AIShoot(int gameId)
+        public string AIShoot(string userId)
         {
-            string resultOfShot = Games[gameId].AIShoot();
-            return resultOfShot;
+            string[] response = Games[userId].AIShoot().Split(new char[] { ' ' });
+            string resultOfShot = response[0];
+            int xCoordinate = Convert.ToInt32(resultOfShot[1] + 1);
+            int yCoordinate = Convert.ToInt32(resultOfShot[2] + 1);
+            return resultOfShot + " " + xCoordinate + " " + yCoordinate;
         }
     }
 }
