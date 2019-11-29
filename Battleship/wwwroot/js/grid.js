@@ -1,10 +1,10 @@
 ﻿
 // function that builds a grid in the "container"
 function createGrid(x) {
-    for (var rows = 1; rows <= x; rows++) {
-        for (var columns = 1; columns <= x; columns++) {
-            $("#playerGrid").append("<div class='Player_Cell' " + "id=" + rows + "_" + columns + " x=" + rows + " y=" + columns + "></div>");
-            $("#AIGrid").append("<div class='AI_Cell' " + "id=" + rows + "_" + columns + " x=" + rows + " y=" + columns + " onclick=\"ShootCellAIGrid(this.id)\"" + "></div>");
+    for (var rows = 0; rows < x; rows++) {
+        for (var columns = 0; columns < x; columns++) {
+            $("#playerGrid").append("<div class='Player_Cell' " + "id=" + columns + "_" + rows + " x=" + columns + " y=" + rows + "></div>");
+            $("#AIGrid").append("<div class='AI_Cell' " + "id=" + columns + "_" + rows + " x=" + columns + " y=" + rows + " onclick=\"ShootCellAIGrid(this.id)\"" + "></div>");
         };
     };
     $(".Player_Cell").width(500 / x);
@@ -51,11 +51,75 @@ function ShootCellAIGrid(elementID) {
         success: function (response) {
             if (response.success) {
 
-               
+                //  must be player turn
+
+                if (response.resultText != "NOT YOUR TURN") {
+
+                    // ignore duplicate shots
+                    if (response.resultText != "DUPLICATE") {
+
+                        if (response.resultText == "WIN") {
+                            $("#" + elementID + ".AI_Cell").css("background-color", "red");
+                            alert("You win");
+                        }
+                        // if hit
+                        else if (response.resultText == "HIT") {
+                            $("#" + elementID + ".AI_Cell").css("background-color", "red");
+                            ShootCellPlayerGrid();
+
+                            // if it's a WINN after the hit
+                        }
+                        // if hit
+                        else if (response.resultText == "MISS") {
+                            $("#" + elementID + ".AI_Cell").css("background-color", "grey");
+                            ShootCellPlayerGrid();
+                        }
+                        // name the ship is down
+                        else {
+                            $("#" + elementID + ".AI_Cell").css("background-color", "red");
+                            alert("AI ship: " + response.resultText + " is sunked.");
+                            ShootCellPlayerGrid();
+                        }
+                    }
+
+                }
+
             }
         }
     });
 
+
+
+}
+
+function ShootCellPlayerGrid() {
+    $.ajax({
+        method: "POST",
+        url: "/GamePlay/FireAtPlayerGrid",
+        success: function (response) {
+            if (response.success) {
+
+                if (response.resultText == "LOSE") {
+                    $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "red");
+                    alert("You Lose");
+                }
+                // if hit
+                else if (response.resultText == "HIT") {
+                    $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "red");
+
+                }
+                else if (response.resultText == "MISS") {
+                    $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "grey");
+                }
+                else {
+                    $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "red");
+                    alert("Player ship:" + response.resultText + " is sunked");
+                }
+
+            }
+
+        }
+    });
 }
 
 function CreateGameService() {
@@ -74,12 +138,6 @@ function CreateGameService() {
 // creates a hover effect that changes the color of a square to black when the mouse passes over it, leaving a (pixel) trail through the grid
 // allows the click of a button to prompt the user to create a new grid
 $(document).ready(function () {
-
     createGrid(10);
-
-    //$(".grid").mouseover(function () {
-    //    $(this).css("background-color", "#808080");
-    //});
-
 });
 

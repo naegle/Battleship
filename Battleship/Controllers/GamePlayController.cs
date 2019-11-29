@@ -22,16 +22,35 @@ namespace Battleship.Controllers
             return View("GamePlayViewPage");
         }
 
-        
-        public IActionResult FireAIGrid(string coords)
+
+        public async Task<JsonResult> FireAIGrid(string coords)
         {
-            gameService.NewGame();
-            return View();
+            var temp = coords.Split('_');
+
+            int col = Int32.Parse(temp[0]);
+            int row = Int32.Parse(temp[1]);
+
+
+           string hitOrMiss = gameService.PlayerShoot(1,col,row);
+            return Json(new {success = true, resultText = hitOrMiss });
+        }
+
+        public async Task<JsonResult> FireAtPlayerGrid()
+        {
+            // the AIShoot metod should also return the x and y coords
+            string result = gameService.AIShoot(1);
+
+            string[] temp = result.Split(" ");
+
+            return Json(new { success = true, resultText = temp[0], col = temp[1], row = temp[2] });
         }
 
         public IActionResult CreateGameService()
         {
-            
+            gameService.NewGame();
+            gameService.PlaceAIShips(1);
+            gameService.PlacePlayerShipsRandomly(1);
+
             return View();
         }
     }
