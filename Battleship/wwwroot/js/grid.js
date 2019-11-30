@@ -60,7 +60,20 @@ function ShootCellAIGrid(elementID) {
 
                         if (response.resultText == "WIN") {
                             $("#" + elementID + ".AI_Cell").css("background-color", "red");
-                            alert("You win");
+
+                            Swal.fire({
+                                title: 'You Won, Do you want to play again?',
+                                text: "You won't be able to revert this!",
+                                icon: 'warning',
+                                showCancelButton: true,
+                                confirmButtonColor: '#3085d6',
+                                cancelButtonColor: '#d33',
+                                confirmButtonText: 'Yes, rematch!'
+                            }).then((result) => {
+                                if (result.value) {
+                                    Swal.fire("You game is reseted");
+                                }
+                            });
                         }
                         // if hit
                         else if (response.resultText == "HIT") {
@@ -101,7 +114,20 @@ function ShootCellPlayerGrid() {
 
                 if (response.resultText == "LOSE") {
                     $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "red");
-                    alert("You Lose");
+
+                    Swal.fire({
+                        title: 'You Lose, Do you want to play again?',
+                        text: "You won't be able to revert this!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Yes, rematch!'
+                    }).then((result) => {
+                        if (result.value) {
+                            Swal.fire("You game is reseted");
+                        }
+                    });
                 }
                 // if hit
                 else if (response.resultText == "HIT") {
@@ -128,8 +154,7 @@ function CreateGameService() {
         url: "/GamePlay/CreateGameService",
         success: function (response) {
             if (response.success) {
-
-
+                Swal.fire("The game is ready");
             }
         }
     });

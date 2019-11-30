@@ -45,13 +45,25 @@ namespace Battleship.Controllers
             return Json(new { success = true, resultText = temp[0], col = temp[1], row = temp[2] });
         }
 
-        public IActionResult CreateGameService()
+        public async Task<JsonResult> CreateGameService()
         {
             gameService.NewGame();
             gameService.PlaceAIShips(1);
             gameService.PlacePlayerShipsRandomly(1);
 
-            return View();
+            return Json(new { success = true });
         }
+
+        public async Task<JsonResult> ResetGame()
+        {
+            return null;
+        }
+
+
+        public async Task<JsonResult> WinGame()
+        {
+            return null;
+        }
+
     }
 }
