@@ -19,7 +19,7 @@ namespace Battleship.Models
 
         public Player Player;
 
-        public Game()
+        public Game(string _playerName)
         {
             this.GameStarted = true;
             this.YourTurn = true;
@@ -29,7 +29,7 @@ namespace Battleship.Models
             this.PlayerShipsRemaining = 5;
             this.AIShipsRemaining = 5;
 
-            this.Player = new Player("Anonymous");
+            this.Player = new Player(_playerName);
 
             random = new Random();
         }
@@ -54,12 +54,14 @@ namespace Battleship.Models
             this.PlayerShipsRemaining = 5;
             this.AIShipsRemaining = 5;
 
+            this.Player.resetAccuracyScore();
+
             AIGrid.WipeGrid();
             AIGrid.PlaceShipsRandomly();
         }
 
         /// <summary>
-        /// This will either return HIT, MISS, WINN, the name of the ship sunk, or NOT YOUR TURN
+        /// This will either return HIT, MISS, WIN, the name of the ship sunk, or NOT YOUR TURN
         /// </summary>
         /// <param name="column"></param>
         /// <param name="row"></param>
@@ -77,11 +79,16 @@ namespace Battleship.Models
             if (resultOfShot.Equals("HIT"))
             {
                 PlayerShots++;
+                this.Player.incrementShot(true);
+            }
+            else if (resultOfShot.Equals("MISS")){
+                this.Player.incrementShot(false);
             }
 
             if (Ship.ShipTypes.Contains(resultOfShot))
             {
                 AIShipsRemaining--;
+                this.Player.incrementShot(true);
                 if (AIShipsRemaining == 0)
                 {
                     return "WIN";

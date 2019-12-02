@@ -63,7 +63,7 @@ function ShootCellAIGrid(elementID) {
 
                             Swal.fire({
                                 title: 'You Won, Do you want to play again?',
-                                text: "You won't be able to revert this!",
+                                text: "Here is your score " + response.score + "%",
                                 icon: 'warning',
                                 showCancelButton: true,
                                 confirmButtonColor: '#3085d6',

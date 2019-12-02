@@ -27,7 +27,7 @@ namespace Battleship.Models
 
         private void calcuateAccuracyScore()
         {
-            accuracyScore = hitShots / totalShots;
+            accuracyScore = (hitShots / totalShots) * 100;
         }
 
         public void incrementShot(bool hitOrMiss)
@@ -49,6 +49,12 @@ namespace Battleship.Models
             this.calcuateAccuracyScore();
 
             return accuracyScore;
+        }
+
+        public void resetAccuracyScore()
+        {
+            hitShots = 0;
+            totalShots = 0;
         }
     }
 }
