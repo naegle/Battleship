@@ -66,7 +66,7 @@ namespace Battleship.Controllers
             string username = userManager.GetUserName(User);
 
             gameService.NewGame(username);
-            gameService.PlaceAIShips(username);
+            gameService.PlaceAIShipsRandomly(username);
             gameService.PlacePlayerShipsRandomly(username);
 
             return Json(new { success = true });

@@ -72,6 +72,7 @@ function ShootCellAIGrid(elementID) {
                             }).then((result) => {
                                 if (result.value) {
                                     Swal.fire("You game is reseted");
+                                    location.reload();
                                 }
                             });
                         }
@@ -126,6 +127,7 @@ function ShootCellPlayerGrid() {
                     }).then((result) => {
                         if (result.value) {
                             Swal.fire("You game is reseted");
+                            location.reload();
                         }
                     });
                 }
