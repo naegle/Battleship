@@ -11,27 +11,28 @@ namespace UnitTestProject1
         public void TestMethod1()
         {
             GamesService g = new GamesService();
-            int gameId = g.NewGame();
+            string userId = "some guy";
+            g.NewGame(userId);
 
-            g.PlaceAIShips(gameId);
+            g.PlaceAIShipsRandomly(userId);
             string AIShips = "";
             for (int i = 0; i <= 9; i++)
             {
                 for (int j = 0; j <= 9; j++)
                 {
-                    AIShips += g.Games[gameId].AIGrid.Cells[i,j].PartialShip.Substring(0,3) + "\t";
+                    AIShips += g.Games[userId].AIGrid.Cells[i,j].PartialShip.Substring(0,3) + "\t";
                 }
 
                 AIShips += "\n";
             }
 
-            g.PlacePlayerShipsRandomly(gameId);
+            g.PlacePlayerShipsRandomly(userId);
             string playerShips = "";
             for (int i = 0; i <= 9; i++)
             {
                 for (int j = 0; j <= 9; j++)
                 {
-                    playerShips += g.Games[gameId].PlayerGrid.Cells[i, j].PartialShip.Substring(0, 3) + "\t";
+                    playerShips += g.Games[userId].PlayerGrid.Cells[i, j].PartialShip.Substring(0, 3) + "\t";
                 }
 
                 playerShips += "\n";
@@ -50,14 +51,14 @@ namespace UnitTestProject1
 
                 for (int j = 0; j <= 9; j++)
                 {
-                    runningResultPlayer += g.PlayerShoot(gameId, i, j).Substring(0,3) + "\t";
+                    runningResultPlayer += g.PlayerShoot(userId, i, j).Substring(0,3) + "\t";
                     if (runningResultPlayer.Contains("WIN"))
                     {
                         done = true;
                         break;
                     }
 
-                    runningResultAI += g.AIShoot(gameId).Substring(0,3) + "\t";
+                    runningResultAI += g.AIShootDumb(userId).Substring(0,3) + "\t";
 
                     if (runningResultAI.Contains("Los"))
                     {
