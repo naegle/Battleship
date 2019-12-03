@@ -37,12 +37,12 @@ namespace Battleship.Controllers
                 tempInventory.Power1 = 0;
                 tempInventory.Power2 = 0;
                 tempInventory.Power3 = 0;
-                tempInventory.Cash = 0;
+                tempInventory.Cash = 1000;
 
                 battleshipContext.Add(tempInventory);
                 battleshipContext.SaveChangesAsync();
 
-                ViewData["UserCredit"] = 0;
+                ViewData["UserCredit"] = tempInventory.Cash;
                 ViewData["Power1Count"] = 0;
                 ViewData["Power2Count"] = 0;
                 ViewData["Power3Count"] = 0;
@@ -61,24 +61,75 @@ namespace Battleship.Controllers
             return View();
         }
 
-        public IActionResult PurchasePower1()
+        public async Task<JsonResult> PurchasePowerUps(string powerupID)
         {
-            return View();
+            string loggedUsername = userManager.GetUserName(User);
+
+            Inventory databaseUser = battleshipContext.Inventories.Where(i => i.PlayerId == loggedUsername).FirstOrDefault();
+            
+
+            if (powerupID == "powerup1")
+            {
+                return  CaluclatePurchase(databaseUser, 10, powerupID);
+            }
+            else if (powerupID == "powerup2")
+            {
+                return  CaluclatePurchase(databaseUser, 50, powerupID);
+            }
+            else
+            {
+                return  CaluclatePurchase(databaseUser, 100, powerupID);
+            }
+
         }
 
-        public IActionResult PurchasePower2()
+        private JsonResult CaluclatePurchase(Inventory user, int cost, string powerupType)
         {
-            return View();
+
+            // Check if user have enough credit to make a purchase
+            if (user.Cash < cost)
+            {
+                return Json(new { success = true, resultText = "NOT ENOUGH" });
+            }
+
+            //  At this point they got enough credit to make purchase
+            int calculatePurchase = user.Cash - cost;
+
+            // increase quantity count
+            // update user cash
+            if (powerupType == "powerup1")
+            {
+                user.Power1++;
+                user.Cash = calculatePurchase;
+
+                battleshipContext.Update(user);
+                battleshipContext.SaveChanges();
+
+                return Json(new { success = true, resultText = "PURCHASED_POWER1", powerupCount = user.Power1, userCredit = user.Cash });
+            }
+            else if (powerupType == "powerup2")
+            {
+                user.Power2++;
+                user.Cash = calculatePurchase;
+
+                battleshipContext.Update(user);
+                battleshipContext.SaveChanges();
+
+                return Json(new { success = true, resultText = "PURCHASED_POWER2", powerupCount = user.Power2, userCredit = user.Cash });
+            }
+            else
+            {
+                user.Power3++;
+                user.Cash = calculatePurchase;
+
+                battleshipContext.Update(user);
+                battleshipContext.SaveChanges();
+
+                return Json(new { success = true, resultText = "PURCHASED_POWER3", powerupCount = user.Power3, userCredit = user.Cash });
+            }
+            
         }
 
-        public IActionResult PurchasePower3()
-        {
-            return View();
-        }
 
-        public IActionResult PurchasePower4()
-        {
-            return View();
-        }
     }
 }
