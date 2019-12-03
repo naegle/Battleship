@@ -22,9 +22,13 @@ namespace Battleship.Models
             {
                 game.NewGame();
             }
+            else
+            {
+                Games.Add(userId, new Game(userId));
+            }
+           
+        }
 
-            Games.Add(userId, new Game());
-}
         public void RestartGame(string playerID)
         {
             Games[playerID].NewGame();
@@ -86,7 +90,7 @@ namespace Battleship.Models
 
         public string AIShoot(string playerID)
         {
-            string resultOfShot = Games[playerID].AIShoot();
+            string resultOfShot = Games[playerID].AIShootDumb();
             return resultOfShot;
         }
 
@@ -101,3 +105,4 @@ namespace Battleship.Models
         }
     }
 }
+

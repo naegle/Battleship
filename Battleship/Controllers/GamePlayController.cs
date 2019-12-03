@@ -61,12 +61,12 @@ namespace Battleship.Controllers
             return Json(new { success = true, resultText = temp[0], col = temp[1], row = temp[2] });
         }
 
-        public async Task<JsonResult> CreateGameService()
+        public async Task<JsonResult> CreateGameService(object item)
         {
             string username = userManager.GetUserName(User);
 
             gameService.NewGame(username);
-            gameService.PlaceAIShips(username);
+            gameService.PlaceAIShipsRandomly(username);
             gameService.PlacePlayerShipsRandomly(username);
 
             return Json(new { success = true });

@@ -72,6 +72,7 @@ function ShootCellAIGrid(elementID) {
                             }).then((result) => {
                                 if (result.value) {
                                     Swal.fire("You game is reseted");
+                                    location.reload();
                                 }
                             });
                         }
@@ -126,6 +127,7 @@ function ShootCellPlayerGrid() {
                     }).then((result) => {
                         if (result.value) {
                             Swal.fire("You game is reseted");
+                            location.reload();
                         }
                     });
                 }
@@ -149,9 +151,12 @@ function ShootCellPlayerGrid() {
 }
 
 function CreateGameService() {
+    var test = document.getElementsByName("Player_Cell");
+
     $.ajax({
         method: "POST",
         url: "/GamePlay/CreateGameService",
+        data: {item: test},
         success: function (response) {
             if (response.success) {
                 Swal.fire("The game is ready");

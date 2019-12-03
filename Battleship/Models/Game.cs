@@ -21,10 +21,10 @@ namespace Battleship.Models
 
         public Player Player;
 
-        public Game(string _playerName)
+        
         public List<Point> SmartShots;
 
-        public Game()
+        public Game(string _playerName)
         {
             this.GameStarted = true;
             this.PlayerGrid = new Grid();
@@ -92,11 +92,11 @@ namespace Battleship.Models
                 this.Player.incrementShot(true);
                 if (AIShipsRemaining == 0)
                 {
-                    return "WIN" + " " + column + " " + row + " " + (Ship.TOTAL_SHIP_HEALTH * 100) / PlayerShots;
+                    return "WIN";
                 }
             }
 
-            return resultOfShot + " " + column + " " + row;
+            return resultOfShot;
         }
 
         /// <summary>
@@ -119,7 +119,7 @@ namespace Battleship.Models
                 PlayerShipsRemaining--;
                 if (PlayerShipsRemaining == 0)
                 {
-                    return "Lose " + columnShot + " " + rowShot;
+                    return "LOSE " + columnShot + " " + rowShot;
                 }
             }
 
