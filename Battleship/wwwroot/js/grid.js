@@ -202,3 +202,69 @@ app.loader.add('bunny', "/images/splashSheet.json").load((loader, resources) => 
         bunny.rotation += 0.01;
     });
 });
+
+function rocketBarrage() {
+
+    $.ajax({
+        method: "POST",
+        url: "/GamePlay/RocketBarrage",
+        data: {},
+        success: function (response) {
+            if (response.success) {
+                updateCellAfterShot(response.result1, response.column1, response.row1);
+                updateCellAfterShot(response.result2, response.column2, response.row2);
+                updateCellAfterShot(response.result3, response.column3, response.row3);
+                updateCellAfterShot(response.result4, response.column4, response.row4);
+                updateCellAfterShot(response.result5, response.column5, response.row5);
+                updateCellAfterShot(response.result6, response.column6, response.row6);
+                updateCellAfterShot(response.result7, response.column7, response.row7);
+                updateCellAfterShot(response.result8, response.column8, response.row8);
+                updateCellAfterShot(response.result9, response.column9, response.row9);
+                updateCellAfterShot(response.result10, response.column10, response.row10);
+            }
+        }
+    });
+}
+
+function updateCellAfterShot(result, column, row) {
+    if (result != "NOT YOUR TURN") {
+
+        // ignore duplicate shots
+        if (result != "DUPLICATE") {
+
+            if (result == "WIN") {
+                $("#" + elementID + ".AI_Cell").css("background-color", "red");
+
+                Swal.fire({
+                    title: 'You Won, Do you want to play again?',
+                    text: "Here is your score " + response.score + "%",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, rematch!'
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire("You game is reseted");
+                        location.reload();
+                    }
+                });
+            }
+            // if hit
+            else if (result == "HIT") {
+                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "red");
+
+                // if it's a WINN after the hit
+            }
+            else if (response.resultText == "MISS") {
+                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "grey");
+            }
+            // name the ship is down
+            else {
+                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "red");
+                alert("AI ship: " + result + " is sunked.");
+            }
+        }
+
+    }
+}
