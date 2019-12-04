@@ -33,9 +33,15 @@
                         <ul class="navbar-nav ml-auto">
                             @if (signInManager.IsSignedIn(User))
                             {
+                            <li>
+                                <audio id="audioControl" autoplay loop style="display:none">
+                                    <source src="~/audio/music.mp3" type="audio/mp3" />
+                                </audio>
+                                <button id="audioButton" onclick="toggleMute()"></button>
+                            </li>
                                 <li class="nav-item">
                                     <form method="post" asp-action="logout" asp-controller="home">
-                                        <button type="submit" class="nav-link btn btn-link py-0" style="width:auto">
+                                        <button type="submit" id="logoutLink" class="nav-link btn btn-link py-0" style="width:auto">
                                             Logout @User.Identity.Name
                                         </button>
                                     </form>

@@ -90,7 +90,7 @@ namespace Battleship.Models
 
         public string AIShoot(string playerID)
         {
-            string resultOfShot = Games[playerID].AIShootDumb();
+            string resultOfShot = Games[playerID].AIShootSmart();
             return resultOfShot;
         }
 
@@ -102,6 +102,11 @@ namespace Battleship.Models
         public double GetAccuracyScore(string playerUsername)
         {
             return Games[playerUsername].Player.getAccuracyScore();
+        }
+
+        public string RocketBarrage(string playerUsername)
+        {
+            return Games[playerUsername].RocketBarrage();
         }
     }
 }
