@@ -72,6 +72,45 @@ namespace Battleship.Controllers
             return Json(new { success = true });
         }
 
+        public async Task<JsonResult> RocketBarrage()
+        {
+            string username = userManager.GetUserName(User);
+            string[] tenResults = gameService.RocketBarrage(username).Split(" ");
+
+            return Json(new { success = true,
+                resultText1 = tenResults[0],
+                col1 = tenResults[1],
+                row1 = tenResults[2],
+                resultText2= tenResults[3],
+                col2 = tenResults[4],
+                row2 = tenResults[5],
+                resultText3 = tenResults[6],
+                col3 = tenResults[7],
+                row3 = tenResults[8],
+                resultText4 = tenResults[9],
+                col4 = tenResults[10],
+                row4 = tenResults[11],
+                resultText5 = tenResults[12],
+                col5 = tenResults[13],
+                row5 = tenResults[14],
+                resultText6 = tenResults[15],
+                col6 = tenResults[16],
+                row6 = tenResults[17],
+                resultText7 = tenResults[18],
+                col7 = tenResults[19],
+                row7 = tenResults[20],
+                resultText8 = tenResults[21],
+                col8 = tenResults[22],
+                row8 = tenResults[23],
+                resultText9 = tenResults[24],
+                col9 = tenResults[25],
+                row9 = tenResults[26],
+                resultText10 = tenResults[27],
+                col10 = tenResults[28],
+                row10 = tenResults[29],
+            });
+        }
+
         public async Task<JsonResult> ResetGame()
         {
             return null;

@@ -103,6 +103,11 @@ namespace Battleship.Models
         {
             return Games[playerUsername].Player.getAccuracyScore();
         }
+
+        public string RocketBarrage(string playerUsername)
+        {
+            return Games[playerUsername].RocketBarrage();
+        }
     }
 }
 

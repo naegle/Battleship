@@ -285,5 +285,54 @@ namespace Battleship.Models
             bool test = point.X >= 0 && point.X < 10 && point.Y >= 0 && point.Y < 10;
             return test;
         }
+
+        /// <summary>
+        /// Rocket Baragges hit random squares, and they can hit squares that have already been hit.
+        /// </summary>
+        /// <returns></returns>
+        public string RocketBarrage()
+        {
+            string totalResult = "";
+            HashSet<Point> points = new HashSet<Point>();
+
+            while (points.Count < 10)
+            {
+                points.Add(new Point(Random.Next(10), Random.Next(10)));
+            }
+
+            foreach (Point point in points)
+            {
+                string resultOfShot = AIGrid.ShootCell(point.X, point.Y);
+                if (resultOfShot.Equals("DUPLICATE"))
+                {
+                    resultOfShot = AIGrid.Cells[point.X, point.Y].HitMissOrNone;
+                }
+
+                if (Ship.ShipTypes.Contains(resultOfShot))
+                {
+                    AIShipsRemaining--;
+                    if (AIShipsRemaining == 0)
+                    {
+                        totalResult += "WIN " + point.X + 1 + " " + point.Y + 1 + " ";
+                    }
+                }
+
+                else totalResult += resultOfShot + " " + point.X + 1 + " " + point.Y + 1 + "&&";
+
+                if (resultOfShot.Equals(Cell.HIT))
+                {
+                    this.Player.incrementShot(true);
+                }
+
+                if (resultOfShot.Equals(Cell.MISS))
+                {
+                    this.Player.incrementShot(false);
+                }
+            }
+
+            PlayerShots += 10;
+
+            return totalResult;
+        }
     }
 }
