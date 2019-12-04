@@ -14,14 +14,15 @@ function createGrid(x) {
     $(".Player_Cell").droppable({
         snap: true,
         snapTolerance: 50,
-        accept: "raiderImage",
+        accept: ".battleshipImage",
         classes: {
             "ui-droppable-active": "ui-state-active",
             "ui-droppable-hover": "ui-state-hover"
         },
         drop: function (event, ui) {
-            $(this)
-                .addClass("ui-state-highlight")
+            var id = '#' + ui.draggable.attr("id");
+            //Sets title
+            $(id).prop('title', '1');
         }
     });
     $(".AI_Cell").width(500 / x);

@@ -15,15 +15,20 @@
 
     <div class="container">
         <div class="row">
-            <div class="" id="battleShipsList">
+            <div id="battleShipsList">
                 <div id="battleShipsListHeader">Place Your Battleships</div>
                 <ul>
-                    <li><img src="~/images/cruiser.svg" class="battleshipImage" id="cruiserImage" /></li>
-                    <li><img src="~/images/raider.svg" class="battleshipImage" id="raiderImage" /></li>
-                    <li><img src="~/images/destroyer.svg" class="battleshipImage" id="destroyerImage" /></li>
-                    <li><img src="~/images/battleship.svg" class="battleshipImage" id="battleshipImage" /></li>
-                    <li><img src="~/images/aircraftCarrier.svg" class="battleshipImage" id="aircraftCarrierImage" /></li>
-                    <li><button class="rotateButton" onsubmit="">Rotate Ship</button></li>
+                    <li class="horizontalList"><img src="~/images/cruiser.svg" class="battleshipImage" id="cruiserImage" title="0" /></li>
+                    <li class="horizontalList"><img src="~/images/raider.svg" class="battleshipImage" id="raiderImage" title="0" /></li>
+                    <li class="horizontalList"><img src="~/images/destroyer.svg" class="battleshipImage" id="destroyerImage" title="0" /></li>
+                    <li class="horizontalList"><img src="~/images/battleship.svg" class="battleshipImage" id="battleshipImage" title="0" /></li>
+                    <li class="horizontalList"><img src="~/images/aircraftCarrier.svg" class="battleshipImage" id="aircraftCarrierImage" title="0" /></li>
+                    <li class="vertList"><img src="~/images/cruiser90.svg" class="battleshipImage" id="cruiserImage90" title="0" /></li>
+                    <li class="vertList"><img src="~/images/raider90.svg" class="battleshipImage" id="raiderImage90" title="0" /></li>
+                    <li class="vertList"><img src="~/images/destroyer90.svg" class="battleshipImage" id="destroyerImage90" title="0" /></li>
+                    <li class="vertList"><img src="~/images/battleship90.svg" class="battleshipImage" id="battleshipImage90" title="0" /></li>
+                    <li class="vertList"><img src="~/images/aircraftCarrier90.svg" class="battleshipImage" id="aircraftCarrierImage90" title="0" /></li>
+                    <li><button class="rotateButton" onclick="rotateShips()">Rotate Ship(s)</button></li>
                 </ul>
             </div>
             <div class="col-lg-auto" id="playerGrid">
@@ -41,23 +46,40 @@
 </body>
 
 @section Scripts{
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="~/js/Game.js"></script>
+    <script src="~/js/site.js"></script>
     <script src="~/js/Common.js"></script>
     <script src="~/js/grid.js"></script>
+    <script src="~/js/Game.js"></script>
     <script src="~/js/AI.js"></script>
     <script>
         $(function () {
-            $("#cruiserImage").draggable({
+            //$('.battleshipImage').draggable({
+            //    revert: 'invalid',
+            //    cancel: ".battleshipImage",
+            //    snap: ".Player_Cell",
+            //    grid: [50,50],
+            //    cursor: "grabbing",
+            //    opacity: .7,
+            //    containment: "#playerGrid",
+            //    stop: function () {
+            //        $(this).draggable('option', 'revert', 'invalid');
+            //    }
+            //});
+            //$('.battleshipImage').droppable({
+            //    greedy: true,
+            //    drop: function (event, ui) {
+            //        ui.draggable.draggable('option', 'revert', true);
+            //    }
+            //});
+            $(".battleshipImage").draggable({
                 snap: ".Player_Cell",
+                grid: [50, 50],
                 cursor: "grabbing",
                 opacity: .7,
                 containment: "#playerGrid"
             });
-            $("#raiderImage").draggable();
-            $("#destroyerImage").draggable();
-            $("#battleshipImage").draggable();
-            $("#aircraftCarrierImage").draggable();
         });
     </script>
 }

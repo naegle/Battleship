@@ -24,10 +24,23 @@ a {
   border-color: #1861ac;
 }
 
+#audioButton {
+    background: no-repeat;
+    background-image: url(../images/volume2.png);
+    width: 41px;
+    height: 39px;
+    border: none;
+    outline: none;
+}
+
+#logoutLink {
+    line-height: 33px;
+}
+
 /*Responsiveness*/
 @media (min-width: 1200px) {
     .container {
-        max-width: 1500px;
+        max-width: 90%;
     }
 }
 

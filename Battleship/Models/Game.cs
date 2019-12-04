@@ -65,6 +65,9 @@ namespace Battleship.Models
 
             AIGrid.WipeGrid();
             AIGrid.PlaceShipsRandomly();
+
+            SmartShots = CreateSmartShotsList();
+            DamageTrackingShots.Clear();
         }
 
         /// <summary>
