@@ -23,6 +23,7 @@ namespace Battleship.Models
 
         
         public List<Point> SmartShots;
+        public List<Point> DamageTrackingShots;
 
         public Game(string _playerName)
         {
@@ -38,6 +39,7 @@ namespace Battleship.Models
             Random = new Random();
 
             SmartShots = CreateSmartShotsList();
+            DamageTrackingShots = new List<Point>();
         }
 
         public void PlaceAIShipsRandomly()
@@ -133,36 +135,71 @@ namespace Battleship.Models
         /// <returns></returns>
         public string AIShootSmart()
         {
-            //THIS METHOD IS NOT DONE!
+            Point shot;
 
-            Point smartShot = SmartShots[0];
-            int columnShot = smartShot.X;
-            int rowShot = smartShot.Y;
-            SmartShots.Remove(smartShot);
-            string resultOfShot = PlayerGrid.ShootCell(columnShot, rowShot);
+            if (DamageTrackingShots.Count > 0)
+            {
+                shot = DamageTrackingShots[0];
+            }
+            else if (SmartShots.Count > 0)
+            {
+                shot = SmartShots[0];
+            }
+            else return AIShootDumb();
+
+            int column = shot.X;
+            int row = shot.Y;
+            string resultOfShot = PlayerGrid.ShootCell(column, row);
             if (resultOfShot.Equals("DUPLICATE"))
             {
                 resultOfShot = AIShootDumb();
             }
+            if (resultOfShot.Equals("HIT"))
+            {
+                AddNeighborCellsToList(DamageTrackingShots, new Point(column, row));
+            }
 
             if (Ship.ShipTypes.Contains(resultOfShot))
             {
+                DamageTrackingShots.Clear();
+                RemoveNeighborCellsFromList(SmartShots, new Point(column, row));
                 PlayerShipsRemaining--;
                 if (PlayerShipsRemaining == 0)
                 {
-                    return "Lose " + columnShot + " " + rowShot;
+                    return "Lose " + column + " " + row;
                 }
             }
 
-            return resultOfShot + " " + columnShot + " " + rowShot;
+            if (SmartShots.Contains(new Point(column, row)))
+            {
+                SmartShots.Remove(new Point(column, row));
+            }
+            if (DamageTrackingShots.Contains(new Point(column, row)))
+            {
+                DamageTrackingShots.Remove(new Point(column, row));
+            }
+
+            return resultOfShot + " " + column + " " + row;
         }
 
+        /// <summary>
+        /// This method adds shots in a checkerboard fashion. It's smarter and more efficient to check spots if you start out by not checking spots that are right next to you.
+        /// </summary>
+        /// <returns></returns>
         public List<Point> CreateSmartShotsList()
         {
             List<Point> shots = new List<Point>();
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 10; i=i+2)
             {
-                for (int j = 0; j < 10; j++)
+                for (int j = 0; j < 10; j=j+2)
+                {
+                    shots.Add(new Point(i, j));
+                }
+            }
+
+            for (int i = 1; i < 10; i = i + 2)
+            {
+                for (int j = 1; j < 10; j = j + 2)
                 {
                     shots.Add(new Point(i, j));
                 }
@@ -190,6 +227,60 @@ namespace Battleship.Models
                 list[k] = list[n];
                 list[n] = value;
             }
+        }
+
+        private void RemoveNeighborCellsFromList(List<Point> list, Point point)
+        {
+            if (list.Contains(new Point(point.X + 1, point.Y)))
+            {
+                list.Remove(new Point(point.X + 1, point.Y));
+            }
+
+            if (list.Contains(new Point(point.X - 1, point.Y)))
+            {
+                list.Remove(new Point(point.X - 1, point.Y));
+            }
+
+            if (list.Contains(new Point(point.X, point.Y + 1)))
+            {
+                list.Remove(new Point(point.X, point.Y + 1));
+            }
+
+            if (list.Contains(new Point(point.X, point.Y - 1)))
+            {
+                list.Remove(new Point(point.X, point.Y - 1));
+            }
+        }
+
+        private void AddNeighborCellsToList(List<Point> list, Point point)
+        {
+            var testGrid = PlayerGrid.Cells[point.X, point.Y];
+            var testStatus = PlayerGrid.Cells[point.X, point.Y].HitMissOrNone;
+            if (!list.Contains(new Point(point.X + 1, point.Y)) && PointIsWithinTheGrid(new Point(point.X + 1, point.Y)) && PlayerGrid.Cells[point.X + 1, point.Y].HitMissOrNone.Equals("NONE"))
+            {
+                list.Add(new Point(point.X + 1, point.Y));
+            }
+
+            if (!list.Contains(new Point(point.X - 1, point.Y)) && PointIsWithinTheGrid(new Point(point.X - 1, point.Y)) && PlayerGrid.Cells[point.X - 1, point.Y].HitMissOrNone.Equals("NONE"))
+            {
+                list.Add(new Point(point.X - 1, point.Y));
+            }
+
+            if (!list.Contains(new Point(point.X, point.Y + 1)) && PointIsWithinTheGrid(new Point(point.X, point.Y + 1)) && PlayerGrid.Cells[point.X, point.Y + 1].HitMissOrNone.Equals("NONE"))
+            {
+                list.Add(new Point(point.X, point.Y + 1));
+            }
+
+            if (!list.Contains(new Point(point.X, point.Y - 1)) && PointIsWithinTheGrid(new Point(point.X, point.Y - 1)) && PlayerGrid.Cells[point.X, point.Y - 1].HitMissOrNone.Equals("NONE"))
+            {
+                list.Add(new Point(point.X, point.Y - 1));
+            }
+        }
+
+        private bool PointIsWithinTheGrid(Point point)
+        {
+            bool test = point.X >= 0 && point.X < 10 && point.Y >= 0 && point.Y < 10;
+            return test;
         }
     }
 }
