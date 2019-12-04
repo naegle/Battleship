@@ -55,7 +55,7 @@ namespace Battleship.Controllers
             // the AIShoot metod should also return the x and y coords
             string username = userManager.GetUserName(User);
             string result = gameService.AIShoot(username);
-
+          
             string[] temp = result.Split(" ");
 
             return Json(new { success = true, resultText = temp[0], col = temp[1], row = temp[2] });

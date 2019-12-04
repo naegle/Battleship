@@ -1,4 +1,6 @@
-﻿
+﻿PIXI.utils.sayHello();
+
+
 // function that builds a grid in the "container"
 function createGrid(x) {
     for (var rows = 0; rows < x; rows++) {
@@ -79,11 +81,11 @@ function ShootCellAIGrid(elementID) {
                         // if hit
                         else if (response.resultText == "HIT") {
                             $("#" + elementID + ".AI_Cell").css("background-color", "red");
+
                             ShootCellPlayerGrid();
 
                             // if it's a WINN after the hit
                         }
-                        // if hit
                         else if (response.resultText == "MISS") {
                             $("#" + elementID + ".AI_Cell").css("background-color", "grey");
                             ShootCellPlayerGrid();
@@ -168,3 +170,34 @@ $(document).ready(function () {
     createGrid(10);
 });
 
+
+//  PIXI fuctions
+
+const app = new PIXI.Application();
+
+// The application will create a canvas element for you that you
+// can then insert into the DOM
+document.body.appendChild(app.view);
+
+// load the texture we need
+app.loader.add('bunny', "/images/splashSheet.json").load((loader, resources) => {
+    // This creates a texture from a 'bunny.png' image
+    const bunny = new PIXI.Sprite(resources.bunny.texture);
+
+    // Setup the position of the bunny
+    bunny.x = app.renderer.width / 2;
+    bunny.y = app.renderer.height / 2;
+
+    // Rotate around the center
+    bunny.anchor.x = 0.5;
+    bunny.anchor.y = 0.5;
+
+    // Add the bunny to the scene we are building
+    app.stage.addChild(bunny);
+
+    // Listen for frame updates
+    app.ticker.add(() => {
+        // each frame we spin the bunny around a bit
+        bunny.rotation += 0.01;
+    });
+});
