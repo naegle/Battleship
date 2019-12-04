@@ -211,16 +211,18 @@ function rocketBarrage() {
         data: {},
         success: function (response) {
             if (response.success) {
-                updateCellAfterShot(response.result1, response.column1, response.row1);
-                updateCellAfterShot(response.result2, response.column2, response.row2);
-                updateCellAfterShot(response.result3, response.column3, response.row3);
-                updateCellAfterShot(response.result4, response.column4, response.row4);
-                updateCellAfterShot(response.result5, response.column5, response.row5);
-                updateCellAfterShot(response.result6, response.column6, response.row6);
-                updateCellAfterShot(response.result7, response.column7, response.row7);
-                updateCellAfterShot(response.result8, response.column8, response.row8);
-                updateCellAfterShot(response.result9, response.column9, response.row9);
-                updateCellAfterShot(response.result10, response.column10, response.row10);
+                updateCellAfterShot(response.resultText1, response.col1, response.row1);
+                updateCellAfterShot(response.resultText2, response.col2, response.row2);
+                updateCellAfterShot(response.resultText3, response.col3, response.row3);
+                updateCellAfterShot(response.resultText4, response.col4, response.row4);
+                updateCellAfterShot(response.resultText5, response.col5, response.row5);
+                updateCellAfterShot(response.resultText6, response.col6, response.row6);
+                updateCellAfterShot(response.resultText7, response.col7, response.row7);
+                updateCellAfterShot(response.resultText8, response.col8, response.row8);
+                updateCellAfterShot(response.resultText9, response.col9, response.row9);
+                updateCellAfterShot(response.resultText10, response.col10, response.row10);
+
+                ShootCellPlayerGrid();
             }
         }
     });
@@ -256,7 +258,7 @@ function updateCellAfterShot(result, column, row) {
 
                 // if it's a WINN after the hit
             }
-            else if (response.resultText == "MISS") {
+            else if (result == "MISS") {
                 $("#" + column + "_" + row + ".AI_Cell").css("background-color", "grey");
             }
             // name the ship is down

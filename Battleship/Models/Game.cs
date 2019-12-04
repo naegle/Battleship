@@ -313,11 +313,11 @@ namespace Battleship.Models
                     AIShipsRemaining--;
                     if (AIShipsRemaining == 0)
                     {
-                        totalResult += "WIN " + point.X + 1 + " " + point.Y + 1 + " ";
+                        totalResult += "WIN " + (Convert.ToInt32(point.X) + 1) + " " + (Convert.ToInt32(point.Y) + 1) + " ";
                     }
                 }
 
-                else totalResult += resultOfShot + " " + point.X + 1 + " " + point.Y + 1 + "&&";
+                else totalResult += resultOfShot + " " + (Convert.ToInt32(point.X) + 1) + " " + (Convert.ToInt32(point.Y) + 1) + " ";
 
                 if (resultOfShot.Equals(Cell.HIT))
                 {
