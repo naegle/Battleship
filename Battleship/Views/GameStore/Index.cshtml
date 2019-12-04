@@ -3,10 +3,10 @@
     ViewData["Title"] = "Welcome to the Armory, Admiral";
 }
 
-<head>
+    <head>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
 
-
-</head>
+    </head>
 
 
 <body>
@@ -15,7 +15,7 @@
     <br />
 
     <div id="playerIncome">
-        CREDIT:
+        CREDIT: $ @ViewData["UserCredit"]
     </div>
 
     <div class="row">
@@ -24,8 +24,12 @@
                 <img class="card-img-top" src="~/images/GameStore/cannon-shot.svg" alt="Card image cap" width="128" height="128">
                 <div class="card-body">
                     <h5 class="card-title">Cannon Barrge</h5>
+                    <div id="power1Count">
+                        Quantity = @ViewData["Power1Count"]
+                    </div>
+                    Cost : $10
                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <button class="btn-roundedbtn btn-danger" onclick="purchase_power1()">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
+                    <button class="btn-roundedbtn btn-danger" id="powerup1" onclick="purchasePowerUps(this.id)">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
                 </div>
             </div>
         </div>
@@ -34,9 +38,13 @@
                 <img class="card-img-top" src="~/images/GameStore/carpet-bombing.svg" alt="Card image cap" width="128" height="128">
                 <div class="card-body">
                     <h5 class="card-title">Carpet Bomb</h5>
+                    <div id="power2Count">
+                        Quantity = @ViewData["Power2Count"]
+                    </div>
+                    Cost : $50
                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 
-                    <button class="btn-roundedbtn btn-danger">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
+                    <button class="btn-roundedbtn btn-danger" id="powerup2" onclick="purchasePowerUps(this.id)">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
                 </div>
             </div>
         </div>
@@ -46,9 +54,13 @@
                 <img class="card-img-top" src="~/images/GameStore/nuclear-bomb.svg" alt="Card image cap" width="128" height="128">
                 <div class="card-body">
                     <h5 class="card-title">Nuke</h5>
+                    <div id="power3Count">
+                        Quantity = @ViewData["Power3Count"]
+                    </div>
+                    Cost : $100
                     <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
 
-                    <button class="btn-roundedbtn btn-danger">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
+                    <button class="btn-roundedbtn btn-danger" id="powerup3" onclick="purchasePowerUps(this.id)">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
                 </div>
             </div>
         </div>

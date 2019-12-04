@@ -20,6 +20,8 @@ namespace Battleship.Models
             { DESTROYER, 2 },
         };
 
+        public readonly static double TOTAL_SHIP_HEALTH = ShipLengths[CARRIER] + ShipLengths[BATTLESHIP] + ShipLengths[CRUISER] + ShipLengths[SUBMARINE] + ShipLengths[DESTROYER];
+
         public static readonly List<string> ShipTypes = new List<string>
         {
             CARRIER,
