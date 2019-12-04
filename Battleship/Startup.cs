@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Battleship.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
@@ -26,6 +27,9 @@ namespace Battleship
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            //  add game service to contrller there
+            //  there should be only one instane of game service
+            services.AddSingleton<GamesService>();
             services.AddControllersWithViews();
             services.AddDbContext<BattleshipDBContext>(options =>
          options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));

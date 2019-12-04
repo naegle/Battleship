@@ -2,10 +2,11 @@
 @{
     ViewData["Title"] = "GamePlayViewPage";
 }
-<head>
-    <link rel="stylesheet" href="~/css/GameView.css">
-    <link rel="stylesheet" href="~/css/site.css" />
-</head>
+    <head>
+        <link rel="stylesheet" href="~/css/GameView.css">
+        <link rel="stylesheet" href="~/css/site.css" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
+    </head>
 
 
 <body>
@@ -29,12 +30,14 @@
                     <li><button class="rotateButton" onclick="rotateShips()">Rotate Ship(s)</button></li>
                 </ul>
             </div>
-            <div class="col-lg-auto" id="playerGrid" myValue="1"></div>
-            <div class="col-lg-auto" id="AIGrid"></div>
+            <div class="col-lg-auto" id="playerGrid">
+            </div>
+            <div class="col-lg-auto" id="AIGrid">
+            </div>
+
         </div>
+        <button class="playButton" onclick="CreateGameService()">Play Game</button>
     </div>
-
-
 
 </body>
 

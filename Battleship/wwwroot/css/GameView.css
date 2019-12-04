@@ -42,7 +42,7 @@
     padding: 12px;
 }
 
-.rotateButton {
+.rotateButton, .playButton {
     background-color: #008CBA;
     color: white;
     border: 2px solid #008CBA;

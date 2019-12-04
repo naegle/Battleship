@@ -9,34 +9,34 @@ namespace Battleship.Models
     /// </summary>
     public class GamesService
     {
-        public Dictionary<int, Game> Games;
+        public Dictionary<string, Game> Games;
         public int GameCounter;
 
         public GamesService()
         {
-            this.Games = new Dictionary<int, Game>();
+            this.Games = new Dictionary<string, Game>();
             GameCounter = 0;
         }
 
-        public int NewGame()
+        public int NewGame(string _playerName)
         {
-            this.Games.Add(++GameCounter, new Game());
+            this.Games.Add(_playerName, new Game(_playerName));
             return GameCounter;
         }
 
-        public void RestartGame(int gameId)
+        public void RestartGame(string playerID)
         {
-            Games[gameId].NewGame();
+            Games[playerID].NewGame();
         }
 
-        public void PlaceAIShips(int gameId)
+        public void PlaceAIShips(string playerID)
         {
-            Games[gameId].PlaceAIShips();
+            Games[playerID].PlaceAIShips();
         }
 
-        public void PlacePlayerShipsRandomly(int gameId)
+        public void PlacePlayerShipsRandomly(string playerID)
         {
-            Games[gameId].PlacePlayerShipsRandomly();
+            Games[playerID].PlacePlayerShipsRandomly();
         }
 
         /// <summary>
@@ -45,9 +45,9 @@ namespace Battleship.Models
         /// <param name="column"></param>
         /// <param name="row"></param>
         /// <returns></returns>
-        public string PlayerShoot(int gameId, int column, int row)
+        public string PlayerShoot(string playerID, int column, int row)
         {
-            string resultOfShot = Games[gameId].PlayerShoot(column, row);
+            string resultOfShot = Games[playerID].PlayerShoot(column, row);
             return resultOfShot;
         }
 
@@ -56,10 +56,20 @@ namespace Battleship.Models
         /// Result of shot is either "HIT", "MISS", "LOSE", or one of the names of the ship sunk
         /// </summary>
         /// <returns></returns>
-        public string AIShoot(int gameId)
+        public string AIShoot(string playerID)
         {
-            string resultOfShot = Games[gameId].AIShoot();
+            string resultOfShot = Games[playerID].AIShoot();
             return resultOfShot;
+        }
+
+        /// <summary>
+        /// Return the Player accuracy score after winning the game
+        /// </summary>
+        /// <param name="playerUsername"></param>
+        /// <returns></returns>
+        public double GetAccuracyScore(string playerUsername)
+        {
+            return Games[playerUsername].Player.getAccuracyScore();
         }
     }
 }
