@@ -1,8 +1,7 @@
-﻿
-// function that builds a grid in the "container"
+﻿// function that builds a grid in the "container"
 function createGrid(x) {
-    for (var rows = 0; rows < x; rows++) {
-        for (var columns = 0; columns < x; columns++) {
+    for (var rows = 1; rows < x + 1; rows++) {
+        for (var columns = 1; columns < x + 1; columns++) {
             $("#playerGrid").append("<div class='Player_Cell' " + "id=" + rows + "_" + columns + " x=" + rows + " y=" + columns + "></div>");
             $("#AIGrid").append("<div class='AI_Cell' " + "id=" + rows + "_" + columns + " x=" + rows + " y=" + columns + "></div>");
         };
@@ -12,14 +11,15 @@ function createGrid(x) {
     $(".Player_Cell").droppable({
         snap: true,
         snapTolerance: 50,
-        accept: "raiderImage",
+        accept: ".battleshipImage",
         classes: {
             "ui-droppable-active": "ui-state-active",
             "ui-droppable-hover": "ui-state-hover"
         },
         drop: function (event, ui) {
-            $(this)
-                .addClass("ui-state-highlight")
+            var id = '#' + ui.draggable.attr("id");
+            //Sets title
+            $(id).prop('title', '1');
         }
     });
     $(".AI_Cell").width(500 / x);
@@ -46,7 +46,6 @@ function refreshGrid() {
 $(document).ready(function () {
 
     createGrid(10);
-
     //$(".grid").mouseover(function () {
     //    $(this).css("background-color", "#808080");
     //});

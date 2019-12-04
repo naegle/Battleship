@@ -52,7 +52,7 @@ namespace Battleship.Models
         }
 
         /// <summary>
-        /// Returns a essage in the form of [result of shot] [column] [row]
+        /// Returns a message in the form of [result of shot] [column] [row]
         /// Result of shot is either "HIT", "MISS", "LOSE", or one of the names of the ship sunk
         /// </summary>
         /// <returns></returns>
