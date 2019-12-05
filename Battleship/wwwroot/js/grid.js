@@ -261,6 +261,7 @@ function updateCellAfterShot(result, column, row) {
     }
 }
 
+// This wipes both grids and shows the players' ships.
 function updateFullGrid(response) {
     responseArray = response.gridStatus.split(" ");
 
@@ -269,13 +270,15 @@ function updateFullGrid(response) {
         column = responseArray[i + 1];
         row = responseArray[i + 2];
 
+        //Put player cell to blank or ship
         if (cellStatus == "NONE") {
             $("#" + column + "_" + row + ".Player_Cell").css("background-color", "aqua");
         }
-
         else {
             $("#" + column + "_" + row + ".Player_Cell").css("background-color", "black");
         }
+
+        $("#AICell_" + column + "_" + row + ".AI_Cell").css("background-color", "aqua");
     }
 }
 
