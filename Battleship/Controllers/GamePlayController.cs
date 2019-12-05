@@ -67,9 +67,9 @@ namespace Battleship.Controllers
 
             gameService.NewGame(username);
             gameService.PlaceAIShipsRandomly(username);
-            gameService.PlacePlayerShipsRandomly(username);
+            string playerGridStatus = gameService.PlacePlayerShipsRandomly(username);
 
-            return Json(new { success = true });
+            return Json(new { success = true, gridStatus = playerGridStatus});
         }
 
         public async Task<JsonResult> RocketBarrage()

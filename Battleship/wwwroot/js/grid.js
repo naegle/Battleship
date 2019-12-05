@@ -154,14 +154,12 @@ function ShootCellPlayerGrid() {
 }
 
 function CreateGameService() {
-    var test = document.getElementsByName("Player_Cell");
-
     $.ajax({
         method: "POST",
         url: "/GamePlay/CreateGameService",
-        data: {item: test},
         success: function (response) {
             if (response.success) {
+                updateFullGrid(response);
                 Swal.fire("The game is ready");
             }
         }
@@ -219,3 +217,96 @@ document.getElementById("displayTest").appendChild(renderer.view);
 //});
 
 
+    // Listen for frame updates
+    app.ticker.add(() => {
+        // each frame we spin the bunny around a bit
+        bunny.rotation += 0.01;
+    });
+});
+
+function rocketBarrage() {
+
+    $.ajax({
+        method: "POST",
+        url: "/GamePlay/RocketBarrage",
+        data: {},
+        success: function (response) {
+            if (response.success) {
+                updateCellAfterShot(response.resultText1, response.col1, response.row1);
+                updateCellAfterShot(response.resultText2, response.col2, response.row2);
+                updateCellAfterShot(response.resultText3, response.col3, response.row3);
+                updateCellAfterShot(response.resultText4, response.col4, response.row4);
+                updateCellAfterShot(response.resultText5, response.col5, response.row5);
+                updateCellAfterShot(response.resultText6, response.col6, response.row6);
+                updateCellAfterShot(response.resultText7, response.col7, response.row7);
+                updateCellAfterShot(response.resultText8, response.col8, response.row8);
+                updateCellAfterShot(response.resultText9, response.col9, response.row9);
+                updateCellAfterShot(response.resultText10, response.col10, response.row10);
+
+                ShootCellPlayerGrid();
+            }
+        }
+    });
+}
+
+function updateCellAfterShot(result, column, row) {
+    if (result != "NOT YOUR TURN") {
+
+        // ignore duplicate shots
+        if (result != "DUPLICATE") {
+
+            if (result == "WIN") {
+                $("#" + elementID + ".AI_Cell").css("background-color", "red");
+
+                Swal.fire({
+                    title: 'You Won, Do you want to play again?',
+                    text: "Here is your score " + response.score + "%",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, rematch!'
+                }).then((result) => {
+                    if (result.value) {
+                        Swal.fire("You game is reseted");
+                        location.reload();
+                    }
+                });
+            }
+            // if hit
+            else if (result == "HIT") {
+                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "red");
+
+                // if it's a WINN after the hit
+            }
+            else if (result == "MISS") {
+                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "grey");
+            }
+            // name the ship is down
+            else {
+                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "red");
+                alert("AI ship: " + result + " is sunked.");
+            }
+        }
+
+    }
+}
+
+function updateFullGrid(response) {
+    responseArray = response.gridStatus.split(" ");
+
+    for (i = 0; i < 300; i=i+3)
+    {
+        cellStatus = responseArray[i];
+        column = responseArray[i + 1];
+        row = responseArray[i + 2];
+
+        if (cellStatus == "NONE") {
+            $("#" + column + "_" + row + ".Player_Cell").css("background-color", "aqua");
+        }
+
+        else {
+            $("#" + column + "_" + row + ".Player_Cell").css("background-color", "black");
+        }
+    }
+}

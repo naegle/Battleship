@@ -47,9 +47,9 @@ namespace Battleship.Models
             AIGrid.PlaceShipsRandomly();
         }
 
-        public void PlacePlayerShipsRandomly()
+        public string PlacePlayerShipsRandomly()
         {
-            PlayerGrid.PlaceShipsRandomly();
+            return PlayerGrid.PlaceShipsRandomly();
         }
 
         public void NewGame()
@@ -313,11 +313,11 @@ namespace Battleship.Models
                     AIShipsRemaining--;
                     if (AIShipsRemaining == 0)
                     {
-                        totalResult += "WIN " + point.X + 1 + " " + point.Y + 1 + " ";
+                        totalResult += "WIN " + point.X + " " + point.Y + " ";
                     }
                 }
 
-                else totalResult += resultOfShot + " " + point.X + 1 + " " + point.Y + 1 + "&&";
+                else totalResult += resultOfShot + " " + point.X + " " + point.Y + " ";
 
                 if (resultOfShot.Equals(Cell.HIT))
                 {
