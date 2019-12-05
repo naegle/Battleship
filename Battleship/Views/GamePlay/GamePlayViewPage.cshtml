@@ -10,40 +10,43 @@
     </head>
 
 
-<body>
-    <h1>GameViewPage</h1>
+    <body>
+        <h1>GameViewPage</h1>
 
-    <div class="container">
-        <div class="row">
-            <div id="battleShipsList">
-                <div id="battleShipsListHeader">Place Your Battleships</div>
-                <ul>
-                    <li class="horizontalList"><img src="~/images/cruiser.svg" class="battleshipImage" id="cruiserImage" title="0" /></li>
-                    <li class="horizontalList"><img src="~/images/raider.svg" class="battleshipImage" id="raiderImage" title="0" /></li>
-                    <li class="horizontalList"><img src="~/images/destroyer.svg" class="battleshipImage" id="destroyerImage" title="0" /></li>
-                    <li class="horizontalList"><img src="~/images/battleship.svg" class="battleshipImage" id="battleshipImage" title="0" /></li>
-                    <li class="horizontalList"><img src="~/images/aircraftCarrier.svg" class="battleshipImage" id="aircraftCarrierImage" title="0" /></li>
-                    <li class="vertList"><img src="~/images/cruiser90.svg" class="battleshipImage" id="cruiserImage90" title="0" /></li>
-                    <li class="vertList"><img src="~/images/raider90.svg" class="battleshipImage" id="raiderImage90" title="0" /></li>
-                    <li class="vertList"><img src="~/images/destroyer90.svg" class="battleshipImage" id="destroyerImage90" title="0" /></li>
-                    <li class="vertList"><img src="~/images/battleship90.svg" class="battleshipImage" id="battleshipImage90" title="0" /></li>
-                    <li class="vertList"><img src="~/images/aircraftCarrier90.svg" class="battleshipImage" id="aircraftCarrierImage90" title="0" /></li>
-                    <li><button class="rotateButton" onclick="rotateShips()">Rotate Ship(s)</button></li>
-                </ul>
+        <div class="container">
+            <div class="row">
+                <div id="battleShipsList">
+                    <div id="battleShipsListHeader">Place Your Battleships</div>
+                    <ul>
+                        <li class="horizontalList"><img src="~/images/cruiser.svg" class="battleshipImage" id="cruiserImage" title="0" /></li>
+                        <li class="horizontalList"><img src="~/images/raider.svg" class="battleshipImage" id="raiderImage" title="0" /></li>
+                        <li class="horizontalList"><img src="~/images/destroyer.svg" class="battleshipImage" id="destroyerImage" title="0" /></li>
+                        <li class="horizontalList"><img src="~/images/battleship.svg" class="battleshipImage" id="battleshipImage" title="0" /></li>
+                        <li class="horizontalList"><img src="~/images/aircraftCarrier.svg" class="battleshipImage" id="aircraftCarrierImage" title="0" /></li>
+                        <li class="vertList"><img src="~/images/cruiser90.svg" class="battleshipImage" id="cruiserImage90" title="0" /></li>
+                        <li class="vertList"><img src="~/images/raider90.svg" class="battleshipImage" id="raiderImage90" title="0" /></li>
+                        <li class="vertList"><img src="~/images/destroyer90.svg" class="battleshipImage" id="destroyerImage90" title="0" /></li>
+                        <li class="vertList"><img src="~/images/battleship90.svg" class="battleshipImage" id="battleshipImage90" title="0" /></li>
+                        <li class="vertList"><img src="~/images/aircraftCarrier90.svg" class="battleshipImage" id="aircraftCarrierImage90" title="0" /></li>
+                        <li><button class="rotateButton" onclick="rotateShips()">Rotate Ship(s)</button></li>
+                    </ul>
+                </div>
+                <div class="col-lg-auto" id="playerGrid">
+                </div>
+                <div class="col-lg-auto" id="AIGrid">
+                </div>
+
             </div>
-            <div class="col-lg-auto" id="playerGrid">
-            </div>
-            <div class="col-lg-auto" id="AIGrid">
-            </div>
+            <button class="playButton" onclick="CreateGameService()">Play Game</button>
+
 
         </div>
-        <button class="playButton" onclick="CreateGameService()">Play Game</button>
-        <button class="playButton" onclick="AddSplashToMiss()">Run</button>
 
-        <div id="display"></div>
-    </div>
 
-</body>
+
+        <div id="displayTest"></div>
+        <canvas id='canvas'></canvas><br />
+    </body>
 
 @section Scripts{
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
@@ -53,6 +56,7 @@
     <script src="~/js/grid.js"></script>
     <script src="~/js/Game.js"></script>
     <script src="~/js/AI.js"></script>
+    <script src="~/js/jSprite.js"></script>;
     <script>
         $(function () {
             //$('.battleshipImage').draggable({
@@ -81,5 +85,79 @@
                 containment: "#playerGrid"
             });
         });
+
+        
+            var canvasWidth = 500;
+            var canvasHeight = 500;
+
+            var spriteWidth = 128;
+            var spriteHeight = 32;
+
+            var rows = 1;
+            var cols = 4;
+
+            var trackRight = 0;
+            var trackLeft = 1;
+
+            var width = spriteWidth/cols;
+            var height = spriteHeight/rows;
+
+            var curFrame = 0;
+            var frameCount = 8;
+
+            var x=0;
+            var y=200;
+
+            var srcX;
+            var srcY;
+
+            var left = false;
+            var right = true;
+
+            var speed = 12;
+
+            var canvas = document.getElementById("canvas");
+            canvas.width = canvasWidth;
+            canvas.height = canvasHeight;
+
+            var ctx = canvas.getContext("2d");
+
+            var character = new Image();
+            character.src = "/images/Splash.png";
+
+                function updateFrame(){
+                curFrame = ++curFrame % frameCount;
+            srcX = curFrame * width;
+            ctx.clearRect(x,y,width,height);
+
+                    if(left && x>0){
+                srcY = trackLeft * height;
+            x-=speed;
+        }
+                    if(right && x<canvasWidth-width){
+                srcY = trackRight * height;
+            x+=speed;
+        }
+}
+
+                function draw(){
+                updateFrame();
+            ctx.drawImage(character,srcX,srcY,width,height,x,y,width,height);
+        }
+
+
+                function moveLeft(){
+                left = true;
+            right = false;
+        }
+
+                function moveRight(){
+                left = false;
+            right = true;
+        }
+
+        setInterval(draw,100);
+
+    
     </script>
 }

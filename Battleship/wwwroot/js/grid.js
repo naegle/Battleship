@@ -176,32 +176,46 @@ $(document).ready(function () {
 
 
 //  PIXI fuctions
+var renderer = PIXI.Application(100,100);
+document.getElementById("displayTest").appendChild(renderer.view);
 
-const app = new PIXI.Application();
 
-// The application will create a canvas element for you that you
-// can then insert into the DOM
-document.body.appendChild(app.view);
+//const app = new PIXI.Application();
 
-// load the texture we need
-app.loader.add('bunny', "/images/splashSheet.json").load((loader, resources) => {
-    // This creates a texture from a 'bunny.png' image
-    const bunny = new PIXI.Sprite(resources.bunny.texture);
+//// The application will create a canvas element for you that you
+//// can then insert into the DOM
+//document.getElementById("displayTest").appendChild(app.view);
 
-    // Setup the position of the bunny
-    bunny.x = app.renderer.width / 2;
-    bunny.y = app.renderer.height / 2;
+//// load the texture we need
+//app.loader.add('bunny', "/images/Splash.png").load((loader, resources) => {
 
-    // Rotate around the center
-    bunny.anchor.x = 0.5;
-    bunny.anchor.y = 0.5;
+//    var sprite;
 
-    // Add the bunny to the scene we are building
-    app.stage.addChild(bunny);
+//    var rect = new PIXI.Rectangle(0, 0, 128, 32);
 
-    // Listen for frame updates
-    app.ticker.add(() => {
-        // each frame we spin the bunny around a bit
-        bunny.rotation += 0.01;
-    });
-});
+   
+
+//    // This creates a texture from a 'bunny.png' image
+//    const bunny = new PIXI.Sprite(resources.bunny.texture);
+//    bunny.frame = rect;
+    
+
+//    // Setup the position of the bunny
+//    bunny.x = app.renderer.width / 2;
+//    bunny.y = app.renderer.height / 2;
+
+//    // Rotate around the center
+//    bunny.anchor.x = 0.5;
+//    bunny.anchor.y = 0.5;
+
+//    // Add the bunny to the scene we are building
+//    app.stage.addChild(bunny);
+
+//    // Listen for frame updates
+//    app.ticker.add(() => {
+//        // each frame we spin the bunny around a bit
+//        bunny.rotation += 0.01;
+//    });
+//});
+
+
