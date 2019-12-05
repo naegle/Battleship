@@ -47,9 +47,9 @@ namespace Battleship.Models
             AIGrid.PlaceShipsRandomly();
         }
 
-        public void PlacePlayerShipsRandomly()
+        public string PlacePlayerShipsRandomly()
         {
-            PlayerGrid.PlaceShipsRandomly();
+            return PlayerGrid.PlaceShipsRandomly();
         }
 
         public void NewGame()

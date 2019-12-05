@@ -206,20 +206,35 @@ namespace Battleship.Models
             };
         }
 
-        public void PlaceShipsRandomly()
+        public string PlaceShipsRandomly()
         {
             this.WipeGrid();
 
             Random random = new Random();
+
+            string playerGridStatus = "";
 
             foreach (string type in Ship.ShipTypes)
             {
                 bool placementWasSuccessful = false;
                 while (!placementWasSuccessful)
                 {
-                    placementWasSuccessful = this.PlaceShipSuccessful(type, random.Next(10), random.Next(10), random.Next(2) == 0);
+                    int column = random.Next(10);
+                    int row = random.Next(10);
+                    bool isVertical = random.Next(2) == 0;
+                    placementWasSuccessful = this.PlaceShipSuccessful(type, column, row, isVertical);
                 }
             }
+
+            for (int i = 0; i < 10; i++)
+            {
+                for (int j = 0; j < 10; j++)
+                {
+                    playerGridStatus += Cells[j, i].PartialShip + " " + j + " " + i + " ";
+                }
+            }
+
+            return playerGridStatus;
         }
     }
 }

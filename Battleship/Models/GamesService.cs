@@ -39,9 +39,9 @@ namespace Battleship.Models
             Games[userId].PlaceAIShipsRandomly();
         }
 
-        public void PlacePlayerShipsRandomly(string userId)
+        public string PlacePlayerShipsRandomly(string userId)
         {
-            Games[userId].PlacePlayerShipsRandomly();
+            return Games[userId].PlacePlayerShipsRandomly();
         }
 
         /// <summary>

@@ -159,6 +159,7 @@ function CreateGameService() {
         url: "/GamePlay/CreateGameService",
         success: function (response) {
             if (response.success) {
+                updateFullGrid(response);
                 Swal.fire("The game is ready");
             }
         }
@@ -268,5 +269,24 @@ function updateCellAfterShot(result, column, row) {
             }
         }
 
+    }
+}
+
+function updateFullGrid(response) {
+    responseArray = response.gridStatus.split(" ");
+
+    for (i = 0; i < 300; i=i+3)
+    {
+        cellStatus = responseArray[i];
+        column = responseArray[i + 1];
+        row = responseArray[i + 2];
+
+        if (cellStatus == "NONE") {
+            $("#" + column + "_" + row + ".Player_Cell").css("background-color", "aqua");
+        }
+
+        else {
+            $("#" + column + "_" + row + ".Player_Cell").css("background-color", "black");
+        }
     }
 }
