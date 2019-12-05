@@ -1,12 +1,21 @@
 ﻿PIXI.utils.sayHello();
 
+var isPlayerTurn;
+
+// create a 10x10 grid when the page loads
+// creates a hover effect that changes the color of a square to black when the mouse passes over it, leaving a (pixel) trail through the grid
+// allows the click of a button to prompt the user to create a new grid
+$(document).ready(function () {
+    createGrid(10);
+    isPlayerTurn = true;
+});
 
 // function that builds a grid in the "container"
 function createGrid(x) {
     for (var rows = 0; rows < x; rows++) {
         for (var columns = 0; columns < x; columns++) {
-            $("#playerGrid").append("<div class='Player_Cell' " + "id=" + columns + "_" + rows + " x=" + columns + " y=" + rows + "></div>");
-            $("#AIGrid").append("<div class='AI_Cell' " + "id=" + columns + "_" + rows + " x=" + columns + " y=" + rows + " onclick=\"ShootCellAIGrid(this.id)\"" + "></div>");
+            $("#playerGrid").append("<div class='Player_Cell' " + "id=" + columns + "_" + rows + " x=" + columns + " y=" + rows + ">" + "<canvas id=canvasPlayerCell_" + columns + "_" + rows + " width=50 height=50 ></canvas>" + "</div>");
+            $("#AIGrid").append("<div class='AI_Cell' " + "id=" + "AICell_" + columns + "_" + rows + " x=" + columns + " y=" + rows + " onclick=\"ShootCellAIGrid(this.id)\"" + ">" + "<canvas id=canvasAICell_" + columns + "_" + rows + " width=50 height=50 ></canvas>" + "</div>");
         };
     };
     $(".Player_Cell").width(500 / x);
@@ -44,69 +53,78 @@ function refreshGrid() {
 };
 
 function ShootCellAIGrid(elementID) {
+    if (isPlayerTurn) {
 
-    $.ajax({
-        method: "POST",
-        url: "/GamePlay/FireAIGrid",
-        data: {
-            coords: elementID
-        },
-        success: function (response) {
-            if (response.success) {
+        isPlayerTurn = false;
 
-                //  must be player turn
+        $.ajax({
+            method: "POST",
+            url: "/GamePlay/FireAIGrid",
+            data: {
+                coords: elementID
+            },
+            success: function (response) {
+                if (response.success) {
 
-                if (response.resultText != "NOT YOUR TURN") {
+                    //  must be player turn
 
-                    // ignore duplicate shots
-                    if (response.resultText != "DUPLICATE") {
+                    if (response.resultText != "NOT YOUR TURN") {
 
-                        if (response.resultText == "WIN") {
-                            $("#" + elementID + ".AI_Cell").css("background-color", "red");
+                        // ignore duplicate shots
+                        if (response.resultText != "DUPLICATE") {
 
-                            Swal.fire({
-                                title: 'You Won, Do you want to play again?',
-                                text: "Here is your score " + response.score + "%",
-                                icon: 'warning',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'Yes, rematch!'
-                            }).then((result) => {
-                                if (result.value) {
-                                    Swal.fire("You game is reseted");
-                                    location.reload();
-                                }
-                            });
+                            if (response.resultText == "WIN") {
+                                ExplosionAtAILocation("canvasAICell", response.col, response.row);
+                                $("#" + elementID + ".AI_Cell").css("background-color", "red");
+
+                                Swal.fire({
+                                    title: 'You Won, Do you want to play again?',
+                                    text: "Here is your score " + response.score + "%",
+                                    icon: 'warning',
+                                    showCancelButton: true,
+                                    confirmButtonColor: '#3085d6',
+                                    cancelButtonColor: '#d33',
+                                    confirmButtonText: 'Yes, rematch!'
+                                }).then((result) => {
+                                    if (result.value) {
+                                        Swal.fire("You game is reseted");
+                                        location.reload();
+                                    }
+                                });
+                            }
+                            // if hit
+                            else if (response.resultText == "HIT") {
+                                ExplosionAtAILocation("canvasAICell", response.col, response.row);
+                                $("#" + elementID + ".AI_Cell").css("background-color", "red");
+                                setTimeout(ShootCellPlayerGrid, 3000);
+                                // ShootCellPlayerGrid();
+                                // if it's a WINN after the hit
+                            }
+                            else if (response.resultText == "MISS") {
+                                splashAtAILocation("canvasAICell", response.col, response.row);
+                                $("#" + elementID + ".AI_Cell").css("background-color", "grey");
+                                setTimeout(ShootCellPlayerGrid, 3000);
+                                // ShootCellPlayerGrid();
+                            }
+                            // name the ship is down
+                            else {
+                                ExplosionAtAILocation("canvasAICell", response.col, response.row);
+                                $("#" + elementID + ".AI_Cell").css("background-color", "red");
+                                alert("AI ship: " + response.resultText + " is sunked.");
+                                setTimeout(ShootCellPlayerGrid, 3000);
+                                // ShootCellPlayerGrid();
+                            }
                         }
-                        // if hit
-                        else if (response.resultText == "HIT") {
-                            $("#" + elementID + ".AI_Cell").css("background-color", "red");
 
-                            ShootCellPlayerGrid();
-
-                            // if it's a WINN after the hit
-                        }
-                        else if (response.resultText == "MISS") {
-                            $("#" + elementID + ".AI_Cell").css("background-color", "grey");
-                            ShootCellPlayerGrid();
-                        }
-                        // name the ship is down
-                        else {
-                            $("#" + elementID + ".AI_Cell").css("background-color", "red");
-                            alert("AI ship: " + response.resultText + " is sunked.");
-                            ShootCellPlayerGrid();
-                        }
                     }
 
                 }
-
             }
-        }
-    });
+        });
 
 
 
+    }
 }
 
 function ShootCellPlayerGrid() {
@@ -117,6 +135,7 @@ function ShootCellPlayerGrid() {
             if (response.success) {
 
                 if (response.resultText == "LOSE") {
+                    ExplosionAtAILocation("canvasPlayerCell", response.col, response.row);
                     $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "red");
 
                     Swal.fire({
@@ -136,15 +155,21 @@ function ShootCellPlayerGrid() {
                 }
                 // if hit
                 else if (response.resultText == "HIT") {
+                    ExplosionAtAILocation("canvasPlayerCell", response.col, response.row);
                     $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "red");
+                    isPlayerTurn = true;
 
                 }
                 else if (response.resultText == "MISS") {
+                    splashAtAILocation("canvasPlayerCell", response.col, response.row);
                     $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "grey");
+                    isPlayerTurn = true;
                 }
                 else {
+                    ExplosionAtAILocation("canvasPlayerCell", response.col, response.row);
                     $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "red");
                     alert("Player ship:" + response.resultText + " is sunked");
+                    isPlayerTurn = true;
                 }
 
             }
@@ -165,44 +190,7 @@ function CreateGameService() {
         }
     });
 }
-// create a 16x16 grid when the page loads
-// creates a hover effect that changes the color of a square to black when the mouse passes over it, leaving a (pixel) trail through the grid
-// allows the click of a button to prompt the user to create a new grid
-$(document).ready(function () {
-    createGrid(10);
-});
 
-
-//  PIXI fuctions
-
-const app = new PIXI.Application();
-
-// The application will create a canvas element for you that you
-// can then insert into the DOM
-document.body.appendChild(app.view);
-
-// load the texture we need
-app.loader.add('bunny', "/images/splashSheet.json").load((loader, resources) => {
-    // This creates a texture from a 'bunny.png' image
-    const bunny = new PIXI.Sprite(resources.bunny.texture);
-
-    // Setup the position of the bunny
-    bunny.x = app.renderer.width / 2;
-    bunny.y = app.renderer.height / 2;
-
-    // Rotate around the center
-    bunny.anchor.x = 0.5;
-    bunny.anchor.y = 0.5;
-
-    // Add the bunny to the scene we are building
-    app.stage.addChild(bunny);
-
-    // Listen for frame updates
-    app.ticker.add(() => {
-        // each frame we spin the bunny around a bit
-        bunny.rotation += 0.01;
-    });
-});
 
 function rocketBarrage() {
 
@@ -255,16 +243,17 @@ function updateCellAfterShot(result, column, row) {
             }
             // if hit
             else if (result == "HIT") {
-                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "red");
+
+                $("#AICell_" + column + "_" + row + ".AI_Cell").css("background-color", "red");
 
                 // if it's a WINN after the hit
             }
             else if (result == "MISS") {
-                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "grey");
+                $("#AICell_" + column + "_" + row + ".AI_Cell").css("background-color", "grey");
             }
             // name the ship is down
             else {
-                $("#" + column + "_" + row + ".AI_Cell").css("background-color", "red");
+                $("#AICell_" + column + "_" + row + ".AI_Cell").css("background-color", "red");
                 alert("AI ship: " + result + " is sunked.");
             }
         }
@@ -275,8 +264,7 @@ function updateCellAfterShot(result, column, row) {
 function updateFullGrid(response) {
     responseArray = response.gridStatus.split(" ");
 
-    for (i = 0; i < 300; i=i+3)
-    {
+    for (i = 0; i < 300; i = i + 3) {
         cellStatus = responseArray[i];
         column = responseArray[i + 1];
         row = responseArray[i + 2];
@@ -289,4 +277,126 @@ function updateFullGrid(response) {
             $("#" + column + "_" + row + ".Player_Cell").css("background-color", "black");
         }
     }
+}
+
+
+var canvasWidth = 50;
+var canvasHeight = 50;
+
+var spriteWidth;
+var spriteHeight;
+
+var rows;
+var cols;
+
+var trackRight = 0;
+
+//  Which row
+var currentTrack;
+
+var width;
+var height;
+
+var curFrame = 0;
+var frameCount = 4;
+
+var x;
+var y;
+
+var srcX;
+var srcY;
+var canvas;
+var ctx;
+
+var character = new Image();
+
+var stopInterval;
+
+function ExplosionAtAILocation(user, col, row) {
+    spriteWidth = 192;
+    spriteHeight = 192;
+    rows = 4;
+    cols = 4;
+    width = spriteWidth / cols;
+    height = spriteHeight / rows;
+    frameCount = 4;
+    currentTrack = 0;
+    x = 0;
+    y = 0;
+
+    canvas = document.getElementById(user + "_" + col + "_" + row);
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    ctx = canvas.getContext("2d");
+    character.src = "/images/explosion.png";
+    stopInterval = setInterval(drawExplosion, 85);
+}
+
+function splashAtAILocation(user, col, row) {
+    spriteWidth = 128;
+    spriteHeight = 32;
+    rows = 1;
+    cols = 4;
+    width = spriteWidth / cols;
+    height = spriteHeight / rows;
+    frameCount = 4;
+    currentTrack = 0;
+    x = 13;
+    y = 13;
+
+
+    canvas = document.getElementById(user + "_" + col + "_" + row);
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
+    ctx = canvas.getContext("2d");
+
+    character.src = "/images/Splash.png";
+
+    stopInterval = setInterval(drawSplash, 100);
+}
+//  Below code is the splash sprite animation
+function updateSplashFrame() {
+
+    if (curFrame == frameCount - 1) {
+        ctx.clearRect(x, y, width, height);
+        clearInterval(stopInterval);
+        character.src = null;
+    }
+
+    curFrame = ++curFrame % frameCount;
+    srcX = curFrame * width;
+    ctx.clearRect(x, y, width, height);
+    srcY = trackRight * height;
+}
+
+function drawSplash() {
+    updateSplashFrame();
+    ctx.drawImage(character, srcX, srcY, width, height, x, y, width, height);
+}
+
+//  Below code is the animation for explosion sprite
+function updateExplosionFrame() {
+
+    if (currentTrack == 3 && curFrame == 3) {
+        clearInterval(stopInterval);
+        character.src = null;
+    }
+
+
+    curFrame = ++curFrame % frameCount;
+    if (curFrame == 3) {
+        srcY = ++currentTrack * height;
+        srcX = 0;
+    } else {
+        srcX = curFrame * width;
+        ctx.clearRect(x, y, width, height);
+    }
+
+
+
+}
+
+function drawExplosion() {
+    updateExplosionFrame();
+    ctx.drawImage(character, srcX, srcY, width, height, x, y, width, height);
 }

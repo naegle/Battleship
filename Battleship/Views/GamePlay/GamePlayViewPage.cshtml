@@ -2,12 +2,12 @@
 @{
     ViewData["Title"] = "GamePlayViewPage";
 }
-    <head>
-        <link rel="stylesheet" href="~/css/GameView.css">
-        <link rel="stylesheet" href="~/css/site.css" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
-        <script src="https://pixijs.download/release/pixi.min.js"></script>
-    </head>
+<head>
+    <link rel="stylesheet" href="~/css/GameView.css">
+    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/8.11.8/sweetalert2.all.min.js"></script>
+    <script src="https://pixijs.download/release/pixi.min.js"></script>
+</head>
 
 
 <body>
@@ -38,13 +38,16 @@
 
         </div>
         <button class="playButton" onclick="CreateGameService()">Play Game</button>
-        <button class="playButton" onclick="AddSplashToMiss()">Run</button>
+        <button class="playButton" onclick="splashAtLocation()">Splash</button>
 
-        <div id="display"></div>
+        <div id="displayTest"></div>
+        <canvas id='canvas'></canvas><br />
+
+
     </div>
-    THIS IS THE WORKING VERSION
-    <input type="button" onclick="rocketBarrage()" value="Rocket Barrage"/>
-    <p></p>
+
+    <input type="button" onclick="rocketBarrage()" value="Rocket Barrage" />
+
 
 </body>
 

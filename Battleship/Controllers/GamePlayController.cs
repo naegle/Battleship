@@ -32,8 +32,8 @@ namespace Battleship.Controllers
 
             var temp = coords.Split('_');
 
-            int col = Int32.Parse(temp[0]);
-            int row = Int32.Parse(temp[1]);
+            int col = Int32.Parse(temp[1]);
+            int row = Int32.Parse(temp[2]);
 
 
            string hitOrMiss = gameService.PlayerShoot(username, col,row);
@@ -47,7 +47,7 @@ namespace Battleship.Controllers
 
             }
 
-            return Json(new {success = true, resultText = hitOrMiss });
+            return Json(new {success = true, resultText = hitOrMiss, COL = col, ROW = row });
         }
 
         public async Task<JsonResult> FireAtPlayerGrid()
