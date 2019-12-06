@@ -3,12 +3,21 @@
     ViewData["Title"] = "HowToPlayIndex";
 }
 
-<h1>HowToPlayIndex</h1>
-
+<h1>How To Play</h1>
+<h2>Note: if at any time the game becomes unresponsive, refresh the page and click the "Play Game" button.</h2>
 
 <body>
-    This is a tutorial text
-
+    <p>Welcome to Battleship! Brought to you by the Battleship Bois.</p>
+    <p>To play, press the Go to Game button. Once you are there, you will see two grids.</p>
+    <p>The left one is yours, the right one is the AI grid. Click "Play Game" and you will see your ships appear in black on your grid.</p>
+    <p>Placing and rotating ships was a very ambitious stretch goal that we got mostly working, but not fully working. You can test out dragging and dropping the ships, and notice that they snap neatly into the blocks on the grid. But again, that is just visual, and doesn't affect the gameplay.</p>
+    <p>Once you've pressed Play Game, you can play. First, try pressing the Cannon Barrage button. It will fire at ten random spots. Then the AI will make its move.</p>
+    <p>Notice that powerups like this must be purchased at the store. Head over to the store page to see them and purchase them. When you click on one, your money goes down and inventory goes up. Your money and your powerup inventory is stored in the database and persists between games and logins. The Cannon Barrage is the only one we implemented, the Nuke and Carpet Bomb were stretch goals that we didn't get to in time.</p>
+    <p>Head back to the game screen and start a new game by pressing Play Game</p>
+    <p>You can click on the right grid to shoot the enemy. Notice the splash animation if you miss and the explosion animation if you hit. The AI will shoot 1.5 seconds later, make sure not to spam the enemy's grid, and give them time to shoot.</p>
+    <p>If you win, congrats! Head over to the High Scores page and you will see your name, the date, and your accuracy percentage on the high scores page, sorted highest to lowest. The high scores are all in the DB too.</p>
+    <p>If you lose, you can start again. MAKE SURE TO ACTUALLY CLICK "Play Game" AFTER WINNING OR LOSING.</p>
+    <p>Notice that the AI is intelligent! It will fire randomly, but when it hits, it will try to sink that ship until it sinks, then it will go back to firing randomly. You can beat it if you try really hard, but it takes effort!</p>
 
     <button onclick="goBack()">Go Back</button>
 </body>
