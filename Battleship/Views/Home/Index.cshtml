@@ -1,28 +1,51 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿
+    <head>
+        <link rel="stylesheet" href="~/css/site.css" />
+    </head>
 
-<body>
-    <div class="container">
-        <div class="card" style="width: 18rem;">
-            <p class="text-left"><b>Player View</b></p>
-            <div class="card-body">
-                <p class="card-text">
-                    <a asp-area="" asp-controller="GameStore" asp-action="Index">Go to Store</a>
-                </p>
-                <p class="card-text">
-                    <a asp-area="" asp-controller="HighScore" asp-action="Index">Go to HighScore Rank</a>
-                </p>
-                <p class="card-text">
-                    <a asp-area="" asp-controller="Tutorial" asp-action="Index">Go to Tutorial</a>
-                </p>
-                <p class="card-text">
-                    <a asp-area="" asp-controller="GamePlay" asp-action="Index" >Go to Game</a>
-                </p>
+
+    <body>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card">
+                    <img class="card-img-top" src="~/images/HomePage/Control Room.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Control Room</h5>
+                        <a class="btn btn-primary" asp-area="" asp-controller="GamePlay" asp-action="Index">Play Game</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <img class="card-img-top" src="~/images/HomePage/Navy ClassRome.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title">Tutorial</h5>
+                        <a class="btn btn-primary" asp-area="" asp-controller="Tutorial" asp-action="Index">Go to Tutorial</a>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</body>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body">
+                        <img class="card-img-top" src="~/images/HomePage/Big Guns.jpg" alt="Card image cap" >
+                        <h5 class="card-title">Armory</h5>
+                        <a class="btn btn-primary" asp-area="" asp-controller="GameStore" asp-action="Index">Go to Armory</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="card">
+                    <div class="card-body">
+                        <img class="card-img-top" src="~/images/HomePage/Navy ranks.jpg" alt="Card image cap">
+                        <h5 class="card-title">Ranking</h5>
+                        <a class="btn btn-primary" asp-area="" asp-controller="HighScore" asp-action="Index">Go to Rank System</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
 
 @section Scripts{
     <script src="~/js/grid.js"></script>
