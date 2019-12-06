@@ -184,7 +184,7 @@ namespace Battleship.Controllers
 
         }
 
-        private void CreateNewUserToDB(string user, int creditIncome = 0)
+        private void CreateNewUserToDB(string user, int creditIncome = 1000)
         {
             Inventory tempInventory = new Inventory();
             tempInventory.PlayerId = user;

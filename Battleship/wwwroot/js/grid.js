@@ -326,7 +326,8 @@ function updateFullGrid(response) {
     }
 }
 
-
+// Below work is influe by this article 
+//  https://www.simplifiedcoding.net/javascript-sprite-animation-tutorial-html5-canvas/
 var canvasWidth = 50;
 var canvasHeight = 50;
 
