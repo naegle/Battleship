@@ -53,7 +53,7 @@ function refreshGrid() {
 };
 
 function ShootCellAIGrid(elementID) {
-    if (true) {
+    if (isPlayerTurn) {
 
         isPlayerTurn = false;
 
@@ -66,7 +66,6 @@ function ShootCellAIGrid(elementID) {
             success: function (response) {
                 if (response.success) {
 
-                    $('#shotStatus').text(response.resultText)
                     //  must be player turn
 
                     if (response.resultText != "NOT YOUR TURN") {
@@ -82,8 +81,7 @@ function ShootCellAIGrid(elementID) {
 
                                 Swal.fire({
                                     title: 'You Won, Do you want to play again?',
-                                    text: "Here is your score " + response.score + "%",
-                                    icon: 'warning',
+                                    text: "Here is your score " + response.score + "%" + "\n" + "You have earned " + response.credit + " credits.",
                                     showCancelButton: true,
                                     confirmButtonColor: '#3085d6',
                                     cancelButtonColor: '#d33',
@@ -100,14 +98,14 @@ function ShootCellAIGrid(elementID) {
                                 ExplosionAtAILocation("canvasAICell", response.col, response.row);
                                 $("#" + elementID + ".AI_Cell").css("background-color", "red");
                                 setTimeout(ShootCellPlayerGrid, 1500);
-                                // ShootCellPlayerGrid();
+                                
                                 // if it's a WINN after the hit
                             }
                             else if (response.resultText == "MISS") {
                                 splashAtAILocation("canvasAICell", response.col, response.row);
                                 $("#" + elementID + ".AI_Cell").css("background-color", "grey");
                                 setTimeout(ShootCellPlayerGrid, 1500);
-                                // ShootCellPlayerGrid();
+                                
                             }
                             // name the ship is down
                             else if (!response.resultText.includes("WIN")) {
@@ -115,7 +113,7 @@ function ShootCellAIGrid(elementID) {
                                 $("#" + elementID + ".AI_Cell").css("background-color", "red");
                                 alert("AI ship: " + response.resultText + " is sunked.");
                                 setTimeout(ShootCellPlayerGrid, 1500);
-                                // ShootCellPlayerGrid();
+                                
                             }
                         }
 
@@ -215,7 +213,16 @@ function rocketBarrage() {
                 updateCellAfterShot(response.resultText9, response.col9, response.row9);
                 updateCellAfterShot(response.resultText10, response.col10, response.row10);
 
+                document.getElementById("cannonBarrageCount").innerHTML = response.power1Count;
+
                 ShootCellPlayerGrid();
+            }
+            else {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Oh no',
+                    text: "It's seem you don't have enough quantity to use this."
+                })
             }
         }
     });

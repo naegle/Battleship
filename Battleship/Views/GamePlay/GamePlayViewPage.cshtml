@@ -38,15 +38,32 @@
 
         </div>
         <button class="playButton" onclick="CreateGameService()">Play Game</button>
-        <button class="playButton" onclick="splashAtLocation()">Splash</button>
-        <button class="playButton" onclick="rocketBarrage()">Cannon Barrage</button>
-
-        <p id="shotStatus">None</p>
-
-        <div id="displayTest"></div>
-        <canvas id='canvas'></canvas><br />
 
 
+        <div id="PowerUpsTable">
+            <table class="table table-borderless col-md-3 col-sm-4  text-center" >
+                <thead>
+                    <tr>
+                        <th> <button class="playButton" onclick="rocketBarrage()">Cannon Barrage</button> </th>
+                        <th><button class="playButton" onclick="">Carpet Bomb</button></th>
+                        <th> <button class="playButton" onclick="">Atomic Bomb</button> </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <div id="cannonBarrageCount">@ViewData["Power1Count"]</div>
+                        </td>
+                        <td>
+                            <div id="carpetBombCount">@ViewData["Power2Count"] </div>
+                        </td>
+                        <td>
+                            <div id="atomicBombCount">@ViewData["Power3Count"] </div>
+                        </td>
+                    </tr> 
+                </tbody>
+            </table>
+        </div>
     </div>
 </body>
 

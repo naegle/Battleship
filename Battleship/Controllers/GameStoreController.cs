@@ -37,7 +37,7 @@ namespace Battleship.Controllers
                 tempInventory.Power1 = 0;
                 tempInventory.Power2 = 0;
                 tempInventory.Power3 = 0;
-                tempInventory.Cash = 1000;
+                tempInventory.Cash = 0;
 
                 battleshipContext.Add(tempInventory);
                 battleshipContext.SaveChangesAsync();
