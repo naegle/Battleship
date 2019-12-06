@@ -39,11 +39,12 @@ namespace Battleship.Controllers
            string hitOrMiss = gameService.PlayerShoot(username, col,row);
 
             // get calucate score
-            if (hitOrMiss == "WIN")
+            if (hitOrMiss.ToUpper().Contains("WIN"))
             {
-                string _score = gameService.GetAccuracyScore(username).ToString("#.###");
+                //string _score = gameService.GetAccuracyScore(username).ToString("#.###");
+                float score = Convert.ToUInt64(Math.Round(Convert.ToDouble(hitOrMiss.Split(' ')[1])));
 
-                return Json(new { success = true, resultText = hitOrMiss, score = _score });
+                return Json(new { success = true, resultText = hitOrMiss, score = score });
 
             }
 
@@ -76,6 +77,7 @@ namespace Battleship.Controllers
         {
             string username = userManager.GetUserName(User);
             string[] tenResults = gameService.RocketBarrage(username).Split(" ");
+
 
             return Json(new { success = true,
                 resultText1 = tenResults[0],

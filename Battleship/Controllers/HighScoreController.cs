@@ -13,9 +13,10 @@ namespace Battleship.Controllers
         private readonly BattleshipDBContext _context;
         private readonly UserManager<IdentityUser> userManager;
 
-        public HighScoreController(BattleshipDBContext context)
+        public HighScoreController(BattleshipDBContext context, UserManager<IdentityUser> _userManager)
         {
             _context = context;
+            userManager = _userManager;
         }
 
         /// <summary>
@@ -33,11 +34,13 @@ namespace Battleship.Controllers
         {
             string username = userManager.GetUserName(User);
             HighScore highScore = new HighScore();
-            highScore.PlayerId = username;
+            highScore.PlayerId = username + DateTime.Now.ToString();
             highScore.AccuracyScore = score;
             highScore.Date_Of_Win = DateTime.Now;
 
             _context.HighScores.Add(highScore);
+
+            _context.SaveChanges();
 
             return Json(new { success = true });
         }

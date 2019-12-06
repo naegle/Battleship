@@ -40,6 +40,8 @@ namespace Battleship.Models
 
             SmartShots = CreateSmartShotsList();
             DamageTrackingShots = new List<Point>();
+
+            PlayerShots = 0;
         }
 
         public void PlaceAIShipsRandomly()
@@ -68,6 +70,8 @@ namespace Battleship.Models
 
             SmartShots = CreateSmartShotsList();
             DamageTrackingShots.Clear();
+
+            PlayerShots = 0;
         }
 
         /// <summary>
@@ -88,6 +92,7 @@ namespace Battleship.Models
                 this.Player.incrementShot(true);
             }
             else if (resultOfShot.Equals("MISS")){
+                PlayerShots++;
                 this.Player.incrementShot(false);
             }
 
@@ -97,7 +102,7 @@ namespace Battleship.Models
                 this.Player.incrementShot(true);
                 if (AIShipsRemaining == 0)
                 {
-                    return "WIN";
+                    return "WIN " + (PlayerShots * 10)  / Ship.TOTAL_SHIP_HEALTH + " bogus";
                 }
             }
 

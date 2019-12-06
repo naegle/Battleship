@@ -53,7 +53,7 @@ function refreshGrid() {
 };
 
 function ShootCellAIGrid(elementID) {
-    if (isPlayerTurn) {
+    if (true) {
 
         isPlayerTurn = false;
 
@@ -66,6 +66,7 @@ function ShootCellAIGrid(elementID) {
             success: function (response) {
                 if (response.success) {
 
+                    $('#shotStatus').text(response.resultText)
                     //  must be player turn
 
                     if (response.resultText != "NOT YOUR TURN") {
@@ -73,9 +74,11 @@ function ShootCellAIGrid(elementID) {
                         // ignore duplicate shots
                         if (response.resultText != "DUPLICATE") {
 
-                            if (response.resultText == "WIN") {
-                                ExplosionAtAILocation("canvasAICell", response.col, response.row);
-                                $("#" + elementID + ".AI_Cell").css("background-color", "red");
+                            if (response.resultText.includes("WIN")) {
+                                //ExplosionAtAILocation("canvasAICell", response.col, response.row);
+                                //$("#" + elementID + ".AI_Cell").css("background-color", "red");
+
+                                updateHighScore(response.score);
 
                                 Swal.fire({
                                     title: 'You Won, Do you want to play again?',
@@ -96,22 +99,22 @@ function ShootCellAIGrid(elementID) {
                             else if (response.resultText == "HIT") {
                                 ExplosionAtAILocation("canvasAICell", response.col, response.row);
                                 $("#" + elementID + ".AI_Cell").css("background-color", "red");
-                                setTimeout(ShootCellPlayerGrid, 3000);
+                                setTimeout(ShootCellPlayerGrid, 1500);
                                 // ShootCellPlayerGrid();
                                 // if it's a WINN after the hit
                             }
                             else if (response.resultText == "MISS") {
                                 splashAtAILocation("canvasAICell", response.col, response.row);
                                 $("#" + elementID + ".AI_Cell").css("background-color", "grey");
-                                setTimeout(ShootCellPlayerGrid, 3000);
+                                setTimeout(ShootCellPlayerGrid, 1500);
                                 // ShootCellPlayerGrid();
                             }
                             // name the ship is down
-                            else {
+                            else if (!response.resultText.includes("WIN")) {
                                 ExplosionAtAILocation("canvasAICell", response.col, response.row);
                                 $("#" + elementID + ".AI_Cell").css("background-color", "red");
                                 alert("AI ship: " + response.resultText + " is sunked.");
-                                setTimeout(ShootCellPlayerGrid, 3000);
+                                setTimeout(ShootCellPlayerGrid, 1500);
                                 // ShootCellPlayerGrid();
                             }
                         }
@@ -134,7 +137,7 @@ function ShootCellPlayerGrid() {
         success: function (response) {
             if (response.success) {
 
-                if (response.resultText == "LOSE") {
+                if (response.resultText.toUpperCase().includes("LOSE")) {
                     ExplosionAtAILocation("canvasPlayerCell", response.col, response.row);
                     $("#" + response.col + "_" + response.row + ".Player_Cell").css("background-color", "red");
 
@@ -150,6 +153,7 @@ function ShootCellPlayerGrid() {
                         if (result.value) {
                             Swal.fire("You game is reseted");
                             location.reload();
+                            CreateGameService();
                         }
                     });
                 }
@@ -224,7 +228,8 @@ function updateCellAfterShot(result, column, row) {
         if (result != "DUPLICATE") {
 
             if (result == "WIN") {
-                $("#" + elementID + ".AI_Cell").css("background-color", "red");
+                //$("#" + elementID + ".AI_Cell").css("background-color", "red");
+                updateHighScore(column);
 
                 Swal.fire({
                     title: 'You Won, Do you want to play again?',
@@ -238,6 +243,7 @@ function updateCellAfterShot(result, column, row) {
                     if (result.value) {
                         Swal.fire("You game is reseted");
                         location.reload();
+                        CreateGameService();
                     }
                 });
             }
@@ -261,8 +267,39 @@ function updateCellAfterShot(result, column, row) {
     }
 }
 
+function updateHighScore(score) {
+    $.ajax({
+        method: "POST",
+        url: "/HighScore/AddHighScore",
+        data: { score: score },
+        success: function (response) {
+        }
+    });
+}
+
 // This wipes both grids and shows the players' ships.
 function updateFullGrid(response) {
+    if (response.gridStatus.includes("WIN")) {
+        //$("#" + elementID + ".AI_Cell").css("background-color", "red");
+        updateHighScore(10);
+
+        Swal.fire({
+            title: 'You Won, Do you want to play again?',
+            text: "Here is your score 1%",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, rematch!'
+        }).then((result) => {
+            if (result.value) {
+                Swal.fire("You game is reset");
+                location.reload();
+                CreateGameService();
+            }
+        });
+    }
+
     responseArray = response.gridStatus.split(" ");
 
     for (i = 0; i < 300; i = i + 3) {
