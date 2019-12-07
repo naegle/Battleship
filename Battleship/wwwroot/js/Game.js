@@ -1,4 +1,17 @@
-﻿var horizontalShipsList = [
+﻿/**
+    Authors: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Partners: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Date: 11/25/2019
+    Course: CS-4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Eric Naegle, Chris Bordoy, and Tom Nguyen - This work may not be copied for use in Academic Coursework.
+
+    We, Eric Naegle, Chris Bordoy, and Tom Nguyen, certify that we wrote this code from scratch and did not copy it in part or whole from another source.
+    Any references used in the completion of the assignment are cited.
+    
+    This file tried to rotate the ships but since they were attached to drag and drop functionality,
+    ran into a huge problem displaying the correct rotated ships after being dropped on the grid.
+*/
+var horizontalShipsList = [
     "cruiserImage",
     "raiderImage",
     "destroyerImage",
@@ -16,20 +29,7 @@ var isHorizontal;
 var shipsPlayList;
 var firstVertDisplay;
 
-function checkDisplayValue() {
-    shipsList.forEach(function (item) {
-        if (document.getElementById(item).getAttribute("myValue") === "0") {
-            if (str.charAt(item.length) === "0") {
-                document.getElementById(item + "90").style.display = "block";
-                document.getElementById(item).style.display = "none";
-            } else {
-                document.getElementById(item + "90").style.display = "none";
-                document.getElementById(item).style.display = "block";
-            }
-        }
-    });
-}
-
+//Rotates ships on button click
 function rotateShips() {
     //vert list
     if (isHorizontal === true) {
@@ -46,56 +46,14 @@ function rotateShips() {
         displayInitialOrientation();
     }
     else {
-        //$('.horizontalList').css('display', 'block');
-        //$('.vertList').css('display', 'block');
         updateShipLists();
-        //alert("IM HITTING THIS");
-        //if (isHorizontal === true) {
-        //    alert(isHorizontal);
-        //    isHorizontal = false;
-        //    for (var i = 0; i < shipsList.length / 2; i++) {
-        //        //Gets title
-        //        var id = '#' + shipsList[i];
-        //        var title = $(id).prop('title');
-
-        //        if (title === '1') {
-        //            alert("HOWDY");
-        //            $(id).css("display", "block")
-        //            alert($(id).css("display"));
-        //            $(id + "90").css("display", "none");
-        //            alert($(id + "90").css("display"));
-        //            shipsList.remove(id);
-        //            shipsList.remove(shipsList[i].substring(0, id.shipsList[i].length - 2));
-        //        }
-        //    }
-
-        //} else {//horizontal list
-        //    alert(isHorizontal);
-        //    isHorizontal = true;
-        //    for (var i = shipsList.length / 2; i < shipsList.length; i++) {
-        //        //Gets title
-        //        var id = '#' + shipsList[i];
-        //        var title = $(id).prop('title');
-
-        //        if (title === '1') {
-        //            alert("HOWDY");
-        //            $(id + "90").css("display", "block")
-        //            alert($(id + "90").css("display"));
-        //            $(id).css("display", "none");
-        //            alert($(id).css("display"));
-        //            //shipsList.remove(shipsList[i].substring(0, id.shipsList[i].length - 2));
-        //        }
-        //    }
-        //}
     }
-
 }
 
 //Should display full vertical/horizontal lists of ships
 function displayInitialOrientation() {
     if (firstVertDisplay === false) {
         for (var i = 0; i < horizontalShipsList.length; i++) {
-            //Gets title
             id = '#' + horizontalShipsList[i];
             $(id).css('display', 'block');
         }
@@ -106,7 +64,6 @@ function displayInitialOrientation() {
     }
     else {
         for (var i = 0; i < horizontalShipsList.length; i++) {
-            //Gets title
             id = '#' + horizontalShipsList[i];
             $(id).css('display', 'none');
         }
@@ -175,7 +132,6 @@ function updateShipLists() {
         }
     } else {
         for (var i = 0; i < horizontalShipsList.length; i++) {
-            //Gets title
             id = '#' + horizontalShipsList[i];
             title = $(id).prop('title');
             if (title === '0') {

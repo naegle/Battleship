@@ -1,3 +1,15 @@
+/**
+    Authors: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Partners: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Date: 11/25/2019
+    Course: CS-4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Eric Naegle, Chris Bordoy, and Tom Nguyen - This work may not be copied for use in Academic Coursework.
+
+    We, Eric Naegle, Chris Bordoy, and Tom Nguyen, certify that we wrote this code from scratch and did not copy it in part or whole from another source.
+    Any references used in the completion of the assignment are cited.
+
+    Service handler for the game.
+*/
 using System;
 using System.Collections.Generic;
 
@@ -16,6 +28,7 @@ namespace Battleship.Models
             this.Games = new Dictionary<string, Game>();
         }
 
+        //Creates a new game and stores it to a dictionary.
         public void NewGame(string userId)
         {
             if (Games.TryGetValue(userId, out Game game))
@@ -29,16 +42,19 @@ namespace Battleship.Models
            
         }
 
+        //Restarts the game
         public void RestartGame(string playerID)
         {
             Games[playerID].NewGame();
         }
 
+        //Places AI ships randomly
         public void PlaceAIShipsRandomly(string userId)
         {
             Games[userId].PlaceAIShipsRandomly();
         }
 
+        //Places player ships randomly.
         public string PlacePlayerShipsRandomly(string userId)
         {
             return Games[userId].PlacePlayerShipsRandomly();
@@ -88,6 +104,7 @@ namespace Battleship.Models
 
         }
 
+        //Returns the AIShootSmart method
         public string AIShoot(string playerID)
         {
             string resultOfShot = Games[playerID].AIShootSmart();
@@ -101,8 +118,10 @@ namespace Battleship.Models
         /// <returns></returns>
         public double GetAccuracyScore(string playerUsername)
         {
-            return Games[playerUsername].Player.getAccuracyScore();
+            return Games[playerUsername].Player.GetAccuracyScore();
         }
+
+        //Returns the rocket barrage method.
 
         public string RocketBarrage(string playerUsername)
         {

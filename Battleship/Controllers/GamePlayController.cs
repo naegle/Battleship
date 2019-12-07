@@ -1,5 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿/**
+    Authors: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Partners: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Date: 11/25/2019
+    Course: CS-4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Eric Naegle, Chris Bordoy, and Tom Nguyen - This work may not be copied for use in Academic Coursework.
+
+    We, Eric Naegle, Chris Bordoy, and Tom Nguyen, certify that we wrote this code from scratch and did not copy it in part or whole from another source.
+    Any references used in the completion of the assignment are cited.
+
+    The controller for the game view.
+*/
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Battleship.Models;
@@ -21,6 +32,7 @@ namespace Battleship.Controllers
             battleshipContext = _battshipContext;
         }
 
+        //The index method for the controller.
         public IActionResult Index()
         {
             string loggedUsername = userManager.GetUserName(User);
@@ -45,7 +57,7 @@ namespace Battleship.Controllers
             return View("GamePlayViewPage");
         }
 
-
+        //This creates the action of firing at the AI grid.
         public async Task<JsonResult> FireAIGrid(string coords)
         {
             string username = userManager.GetUserName(User);
@@ -55,13 +67,11 @@ namespace Battleship.Controllers
             int col = Int32.Parse(temp[1]);
             int row = Int32.Parse(temp[2]);
 
-
            string hitOrMiss = gameService.PlayerShoot(username, col,row);
 
             // get calucate score
             if (hitOrMiss.ToUpper().Contains("WIN"))
             {
-
                 //string _score = gameService.GetAccuracyScore(username).ToString("#.###");
                 float score = Convert.ToUInt64(Math.Round(Convert.ToDouble(hitOrMiss.Split(' ')[1])));
 
@@ -70,12 +80,11 @@ namespace Battleship.Controllers
                 updateUserCredit(creditIncome);
 
                 return Json(new { success = true, resultText = hitOrMiss, score = score, credit = creditIncome });
-
             }
-
             return Json(new {success = true, resultText = hitOrMiss, COL = col, ROW = row });
         }
 
+        //This creates the action of firing at the player grid.
         public async Task<JsonResult> FireAtPlayerGrid()
         {
             // the AIShoot metod should also return the x and y coords
@@ -87,6 +96,7 @@ namespace Battleship.Controllers
             return Json(new { success = true, resultText = temp[0], col = temp[1], row = temp[2] });
         }
 
+        //This creates a new game and places both players ships randomly.
         public async Task<JsonResult> CreateGameService(object item)
         {
             string username = userManager.GetUserName(User);
@@ -98,6 +108,7 @@ namespace Battleship.Controllers
             return Json(new { success = true, gridStatus = playerGridStatus});
         }
 
+        //This calls and randomizes the rocket barrage shot on the gameboard.
         public async Task<JsonResult> RocketBarrage()
         {
             string username = userManager.GetUserName(User);
@@ -116,9 +127,7 @@ namespace Battleship.Controllers
                 battleshipContext.Update(databaseUser);
                 battleshipContext.SaveChanges();
 
-
                 string[] tenResults = gameService.RocketBarrage(username).Split(" ");
-
 
                 return Json(new
                 {
@@ -158,6 +167,7 @@ namespace Battleship.Controllers
             }
         }
 
+        //Updates the users credit in the database.
         private void updateUserCredit(int _creditIncome)
         {
             // check if user exist to the database, if not add them to the db
@@ -171,19 +181,16 @@ namespace Battleship.Controllers
             {
                 // then create one 
                 CreateNewUserToDB(loggedUsername,creditIncome: _creditIncome);
-
             }
             else
             {
                 databaseUser.Cash += _creditIncome;
-
                 battleshipContext.Update(databaseUser);
                 battleshipContext.SaveChanges();
             }
-
-
         }
 
+        //Generates new user in database with starting credit of 1000.
         private void CreateNewUserToDB(string user, int creditIncome = 1000)
         {
             Inventory tempInventory = new Inventory();
@@ -200,6 +207,5 @@ namespace Battleship.Controllers
             ViewData["Power2Count"] = 0;
             ViewData["Power3Count"] = 0;
         }
-
     }
 }

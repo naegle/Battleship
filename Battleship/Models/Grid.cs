@@ -1,3 +1,15 @@
+/**
+    Authors: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Partners: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Date: 11/25/2019
+    Course: CS-4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Eric Naegle, Chris Bordoy, and Tom Nguyen - This work may not be copied for use in Academic Coursework.
+
+    We, Eric Naegle, Chris Bordoy, and Tom Nguyen, certify that we wrote this code from scratch and did not copy it in part or whole from another source.
+    Any references used in the completion of the assignment are cited.
+
+    The grid and it's cells model.
+*/
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -32,6 +44,7 @@ namespace Battleship.Models
             };
         }
 
+        //Checks to see if the ship placed is valid by checking the bounds and neighbors.
         public bool IsValidShipPlacement(int shipLength, int column, int row, bool isVertical)
         {
             if (column > 9 || column < 0 || row > 9 || row < 0)
@@ -43,6 +56,7 @@ namespace Battleship.Models
                 && SpotsAndNeighborsAreClear(shipLength, column, row, isVertical);
         }
 
+        //Checks that the ships are within the bounds of the grid.
         public bool AllBlocksOfShipAreInBounds(int shipLength, int column, int row, bool isVertical)
         {
             if (isVertical)
@@ -56,6 +70,7 @@ namespace Battleship.Models
             }
         }
 
+        //From a selected cell, checks to see if the neighbor cells are clear.
         public bool SpotsAndNeighborsAreClear(int shipLength, int column, int row, bool isVertical)
         {
             if (isVertical)
@@ -184,6 +199,7 @@ namespace Battleship.Models
             else return "DUPLICATE";
         }
 
+        //This clears and resets the grid and it's storage.
         public void WipeGrid()
         {
             this.Cells = new Cell[10, 10];
@@ -206,6 +222,7 @@ namespace Battleship.Models
             };
         }
 
+        //Places ships randomly on the playable grids.
         public string PlaceShipsRandomly()
         {
             this.WipeGrid();

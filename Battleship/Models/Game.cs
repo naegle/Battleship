@@ -1,3 +1,15 @@
+/**
+    Authors: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Partners: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Date: 11/25/2019
+    Course: CS-4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Eric Naegle, Chris Bordoy, and Tom Nguyen - This work may not be copied for use in Academic Coursework.
+
+    We, Eric Naegle, Chris Bordoy, and Tom Nguyen, certify that we wrote this code from scratch and did not copy it in part or whole from another source.
+    Any references used in the completion of the assignment are cited.
+
+    The code for the battleship game.
+*/
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,7 +32,6 @@ namespace Battleship.Models
         public int AIShipsRemaining;
 
         public Player Player;
-
         
         public List<Point> SmartShots;
         public List<Point> DamageTrackingShots;
@@ -44,16 +55,19 @@ namespace Battleship.Models
             PlayerShots = 0;
         }
 
+        //Places the AI ships randomly within the AI grid.
         public void PlaceAIShipsRandomly()
         {
             AIGrid.PlaceShipsRandomly();
         }
 
+        //Places the Player ships randomly within the Player grid.
         public string PlacePlayerShipsRandomly()
         {
             return PlayerGrid.PlaceShipsRandomly();
         }
 
+        //Starts a new game by resetting all elements.
         public void NewGame()
         {
             this.GameStarted = true;
@@ -63,7 +77,7 @@ namespace Battleship.Models
             this.PlayerShipsRemaining = 5;
             this.AIShipsRemaining = 5;
 
-            this.Player.resetAccuracyScore();
+            this.Player.ResetAccuracyScore();
 
             AIGrid.WipeGrid();
             AIGrid.PlaceShipsRandomly();
@@ -89,17 +103,17 @@ namespace Battleship.Models
             if (resultOfShot.Equals("HIT"))
             {
                 PlayerShots++;
-                this.Player.incrementShot(true);
+                this.Player.IncrementShot(true);
             }
             else if (resultOfShot.Equals("MISS")){
                 PlayerShots++;
-                this.Player.incrementShot(false);
+                this.Player.IncrementShot(false);
             }
 
             if (Ship.ShipTypes.Contains(resultOfShot))
             {
                 AIShipsRemaining--;
-                this.Player.incrementShot(true);
+                this.Player.IncrementShot(true);
                 if (AIShipsRemaining == 0)
                 {
                     return "WIN " + (PlayerShots * 10)  / Ship.TOTAL_SHIP_HEALTH + " bogus";
@@ -326,12 +340,12 @@ namespace Battleship.Models
 
                 if (resultOfShot.Equals(Cell.HIT))
                 {
-                    this.Player.incrementShot(true);
+                    this.Player.IncrementShot(true);
                 }
 
                 if (resultOfShot.Equals(Cell.MISS))
                 {
-                    this.Player.incrementShot(false);
+                    this.Player.IncrementShot(false);
                 }
             }
 

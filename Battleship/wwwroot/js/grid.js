@@ -1,4 +1,17 @@
-﻿PIXI.utils.sayHello();
+﻿/**
+    Authors: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Partners: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Date: 11/25/2019
+    Course: CS-4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Eric Naegle, Chris Bordoy, and Tom Nguyen - This work may not be copied for use in Academic Coursework.
+
+    We, Eric Naegle, Chris Bordoy, and Tom Nguyen, certify that we wrote this code from scratch and did not copy it in part or whole from another source.
+    Any references used in the completion of the assignment are cited.
+
+    Runs all game functionality on both the player grid and the AI grid.
+*/
+
+PIXI.utils.sayHello();
 
 var isPlayerTurn;
 
@@ -30,7 +43,6 @@ function createGrid(x) {
         },
         drop: function (event, ui) {
             var id = '#' + ui.draggable.attr("id");
-            //Sets title
             $(id).prop('title', '1');
         }
     });
@@ -180,6 +192,7 @@ function ShootCellPlayerGrid() {
     });
 }
 
+//If the post method is successful, updates and creates the game grids and pops up a sweet alert.
 function CreateGameService() {
     $.ajax({
         method: "POST",
@@ -193,7 +206,7 @@ function CreateGameService() {
     });
 }
 
-
+//Does a random scattering of shots across the gameboard.
 function rocketBarrage() {
 
     $.ajax({
@@ -228,6 +241,7 @@ function rocketBarrage() {
     });
 }
 
+//This is the state machine for the game.
 function updateCellAfterShot(result, column, row) {
     if (result != "NOT YOUR TURN") {
 
@@ -274,6 +288,7 @@ function updateCellAfterShot(result, column, row) {
     }
 }
 
+//Function that updates the high score.
 function updateHighScore(score) {
     $.ajax({
         method: "POST",
@@ -360,6 +375,7 @@ var character = new Image();
 
 var stopInterval;
 
+//Finds the exact center of the cell on the AI grid and loads an explosion picture.
 function ExplosionAtAILocation(user, col, row) {
     spriteWidth = 192;
     spriteHeight = 192;
@@ -380,6 +396,7 @@ function ExplosionAtAILocation(user, col, row) {
     stopInterval = setInterval(drawExplosion, 85);
 }
 
+//Finds the exact center of the cell on the AI grid and loads a miss/splash picture.
 function splashAtAILocation(user, col, row) {
     spriteWidth = 128;
     spriteHeight = 32;
@@ -402,6 +419,7 @@ function splashAtAILocation(user, col, row) {
 
     stopInterval = setInterval(drawSplash, 100);
 }
+
 //  Below code is the splash sprite animation
 function updateSplashFrame() {
 
@@ -417,6 +435,7 @@ function updateSplashFrame() {
     srcY = trackRight * height;
 }
 
+//Draws splash image on grid.
 function drawSplash() {
     updateSplashFrame();
     ctx.drawImage(character, srcX, srcY, width, height, x, y, width, height);
@@ -439,11 +458,9 @@ function updateExplosionFrame() {
         srcX = curFrame * width;
         ctx.clearRect(x, y, width, height);
     }
-
-
-
 }
 
+//Draws explosion image on grid.
 function drawExplosion() {
     updateExplosionFrame();
     ctx.drawImage(character, srcX, srcY, width, height, x, y, width, height);

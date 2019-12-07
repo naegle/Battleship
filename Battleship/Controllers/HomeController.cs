@@ -1,4 +1,17 @@
-﻿using System;
+﻿
+/**
+    Authors: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Partners: Eric Naegle, Chris Bordoy, and Tom Nguyen
+    Date: 11/25/2019
+    Course: CS-4540, University of Utah, School of Computing
+    Copyright: CS 4540 and Eric Naegle, Chris Bordoy, and Tom Nguyen - This work may not be copied for use in Academic Coursework.
+
+    We, Eric Naegle, Chris Bordoy, and Tom Nguyen, certify that we wrote this code from scratch and did not copy it in part or whole from another source.
+    Any references used in the completion of the assignment are cited.
+
+    Controls the requests and responses for Identity and the four main tiles. 
+*/
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -39,6 +52,7 @@ namespace Battleship.Controllers
             return View();
         }
 
+        //Register method for Identity
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -67,12 +81,14 @@ namespace Battleship.Controllers
             return View();
         }
 
+        //Returns the login page view
         [HttpGet]
         public IActionResult Login()
         {
             return View();
         }
 
+        //Login method for login page.
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
@@ -91,7 +107,7 @@ namespace Battleship.Controllers
             return View(model);
         }
 
-
+        //Logout method for entire website
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
@@ -99,6 +115,7 @@ namespace Battleship.Controllers
             return RedirectToAction("login", "home");
         }
 
+        //Error method.
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
