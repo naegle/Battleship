@@ -34,12 +34,12 @@
             <div class="card">
                 <img class="card-img-top" src="~/images/GameStore/cannon-shot.svg" alt="Card image cap" width="128" height="128">
                 <div class="card-body">
-                    <h5 class="card-title">Cannon Barrge</h5>
+                    <h5 class="card-title">Cannon Barrage</h5>
                     <div id="power1Count">
                         Quantity = @ViewData["Power1Count"]
                     </div>
                     Cost : $10
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text">Randomly fires 10 shots across the enemy board</p>
                     <button class="btn-roundedbtn btn-danger" id="powerup1" onclick="purchasePowerUps(this.id)">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
                 </div>
             </div>
@@ -53,7 +53,7 @@
                         Quantity = @ViewData["Power2Count"]
                     </div>
                     Cost : $50
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text">Drops a nuke across an entire row or column on the enemy board</p>
 
                     <button class="btn-roundedbtn btn-danger" id="powerup2" onclick="purchasePowerUps(this.id)">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
                 </div>
@@ -69,18 +69,17 @@
                         Quantity = @ViewData["Power3Count"]
                     </div>
                     Cost : $100
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <p class="card-text">Last resort</p>
 
                     <button class="btn-roundedbtn btn-danger" id="powerup3" onclick="purchasePowerUps(this.id)">BUY<i class="fas fas fa-dollar-sign pl-1"></i></button>
                 </div>
+                <button onclick="goBack()">Go Back</button>
             </div>
         </div>
     </div>
-
-    <button onclick="goBack()">Go Back</button>
 </body>
 
 @section Scripts{
-    <script src="~/js/Store.js"></script>
     <script src="~/js/Common.js"></script>
+    <script src="~/js/Store.js"></script>
 }
